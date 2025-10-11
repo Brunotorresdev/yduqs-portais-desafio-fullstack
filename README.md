@@ -6,7 +6,7 @@ Este repositório contém uma aplicação fullstack com backend em NestJS e fron
 
 1. Clone o repositório para a sua máquina local:
    ```bash
-   git clone https://github.com/seu-usuario/yduqs-portais-desafio-fullstack.git
+   git clone https://github.com/Brunotorresdev/yduqs-portais-desafio-fullstack.git
    ```
 
 2. Acesse a pasta do projeto e instale as dependências de cada ambiente:
@@ -44,7 +44,7 @@ Este repositório contém uma aplicação fullstack com backend em NestJS e fron
 
 O andamento detalhado do desenvolvimento, decisões de arquitetura e outras anotações podem ser encontradas no Notion:
 
-🔗 **[Link para o Notion aqui]**
+🔗 **[https://www.notion.so/Teste-YDUQS-2876385c282c802a85a8c3c7b177bc0f?source=copy_link]**
 
 ---
 Obrigado por visitar! 🚀
