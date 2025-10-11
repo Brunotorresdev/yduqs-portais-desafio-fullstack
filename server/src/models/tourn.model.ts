@@ -1,4 +1,4 @@
-import { CourseOptionTourn } from './course-option-tourn.entity';
+import { CourseOptionTourn } from './course-option-tourn.model';
 
 export class Tourn {
   id: string;

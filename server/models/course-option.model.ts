@@ -1,5 +1,5 @@
-import { Purchase } from '../../purchases/entities/purchase.entity';
-import { CourseOptionTourn } from './course-option-tourn.entity';
+import { CourseOptionTourn } from './course-option-tourn.model';
+import { Purchase } from './purchase.model';
 
 export class CourseOption {
   id: string;
@@ -12,6 +12,6 @@ export class CourseOption {
   streetNeighborhood: string;
   isDefault: boolean;
   createdAt: Date;
-  purchases?: Purchase[];
   courseOptionTourns?: CourseOptionTourn[];
+  purchases?: Purchase[];
 }
