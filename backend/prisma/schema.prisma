@@ -1,15 +1,68 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Client {
+  id                        String     @id @default(uuid())
+  name                      String
+  identifier                String     @unique
+  birth_date                DateTime
+  email                     String     @unique
+  phone                     String
+  high_school_completion_year Int
+  accepted_terms            Boolean
+  accepted_whatsapp_updates Boolean
+  created_at                DateTime   @default(now())
+
+  purchases                 Purchase[]
+}
+
+model CourseOption {
+  id            String          @id @default(uuid())
+  name          String?
+  value         Decimal?
+  cash_value    Decimal?
+  city          String
+  street        String
+  street_number String
+  street_neighborhood String
+  is_default    Boolean
+  created_at    DateTime        @default(now())
+
+  tourns        CourseOptionTourn[]
+  purchases     Purchase[]
+}
+
+model Tourn {
+  id    String               @id @default(uuid())
+  name  String
+
+  course_options CourseOptionTourn[]
+}
+
+model CourseOptionTourn {
+  id             String       @id @default(uuid())
+  course_option  CourseOption @relation(fields: [course_option_id], references: [id])
+  course_option_id String
+  tourn          Tourn        @relation(fields: [tourn_id], references: [id])
+  tourn_id       String
+
+  @@unique([course_option_id, tourn_id])
+}
+
+model Purchase {
+  id                String       @id @default(uuid())
+  client            Client       @relation(fields: [client_id], references: [id])
+  client_id         String
+  course_option     CourseOption @relation(fields: [course_option_id], references: [id])
+  course_option_id  String
+  total_installments Int
+  installment_value Decimal
+  total_value       Decimal
+  created_at        DateTime     @default(now())
 }
