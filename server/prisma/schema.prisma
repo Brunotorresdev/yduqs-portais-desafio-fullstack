@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id                        String     @id @default(uuid()) @db.Uuid
+  name                      String     @db.VarChar(255)
+  identifier                String     @db.VarChar(20)
+  birthDate                 DateTime   @map("birth_date") @db.Date
+  email                     String     @db.VarChar(255)
+  phone                     String     @db.VarChar(20)
+  highSchoolCompletionYear  Int       @map("high_school_completion_year") @db.SmallInt
+  acceptedTerms             Boolean    @map("accepted_terms")
+  acceptedWhatsappUpdates   Boolean    @map("accepted_whatsapp_updates")
+  createdAt                 DateTime   @default(now()) @map("created_at") @db.Timestamp()
+  purchases                 Purchase[]
+
+  @@map("clients")
+}
+
+model CourseOption {
+  id                 String               @id @default(uuid()) @db.Uuid
+  name               String               @db.VarChar(255)
+  value              Decimal              @db.Decimal(10, 2)
+  avistaValue        Decimal              @map("avista_value") @db.Decimal(10, 2)
+  city               String               @db.VarChar(100)
+  street             String               @db.VarChar(150)
+  streetNumber       String               @map("street_number") @db.VarChar(10)
+  streetNeighborhood String               @map("street_neighborhood") @db.VarChar(100)
+  isDefault          Boolean              @map("is_default")
+  createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamp()
+  purchases          Purchase[]
+  courseOptionTourns CourseOptionTourn[]
+
+  @@map("course_options")
+}
+
+model Tourn {
+  id                 String               @id @default(uuid()) @db.Uuid
+  name               String               @db.VarChar(50)
+  courseOptionTourns CourseOptionTourn[]
+
+  @@map("tourns")
+}
+
+model CourseOptionTourn {
+  id             String       @id @default(uuid()) @db.Uuid
+  courseOption   CourseOption @relation(fields: [courseOptionId], references: [id])
+  courseOptionId String       @map("course_option_id") @db.Uuid
+  tourn          Tourn        @relation(fields: [tournId], references: [id])
+  tournId        String       @map("tourn_id") @db.Uuid
+
+  @@map("course_option_tourns")
+}
+
+model Purchase {
+  id               String       @id @default(uuid()) @db.Uuid
+  client          Client       @relation(fields: [clientId], references: [id])
+  clientId        String       @map("client_id") @db.Uuid
+  courseOption    CourseOption @relation(fields: [courseOptionId], references: [id])
+  courseOptionId  String       @map("course_option_id") @db.Uuid
+  totalInstallments Int        @map("total_installments") @db.SmallInt
+  installmentValue Decimal     @map("installment_value") @db.Decimal(10, 2)
+  totalValue      Decimal      @map("total_value") @db.Decimal(10, 2)
+  createdAt       DateTime     @default(now()) @map("created_at") @db.Timestamp()
+
+  @@map("purchases")
+}
