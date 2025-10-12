@@ -4,8 +4,12 @@ import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { Button, Typography } from '@mui/material';
+import { usePageOptions } from './hooks/usePageOptions';
 
 export default function PageOption() {
+  const { data, isLoading, error } = usePageOptions();
+  console.log("🚀 ~ PageOption ~ data:", data)
+  
   return (
     <div>
       <Header />
@@ -19,9 +23,9 @@ export default function PageOption() {
       <Button variant="contained" color="primary">
         Clique aqui
       </Button>
-      <div style={{backgroundColor: '#001F66'}}>
-      <Footer />
-        </div>
+      <div style={{ backgroundColor: '#001F66' }}>
+        <Footer />
+      </div>
     </div>
   );
 }
