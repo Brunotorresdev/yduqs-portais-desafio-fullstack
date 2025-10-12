@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
-import { CssBaseline } from "@mui/material";
-import { Inter } from "next/font/google";
+import type { Metadata } from 'next';
+import { CssBaseline } from '@mui/material';
+import { Inter } from 'next/font/google';
+import { Providers } from '@/components/providers/Providers';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Meu App",
-  description: "Exemplo com MUI e Next.js",
+  title: 'Teste YDUQS - Next.js',
+  description: 'Aplicação Front-end desenvolvida em Next.js',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -14,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR">
       <body className={inter.className}>
         <CssBaseline />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
