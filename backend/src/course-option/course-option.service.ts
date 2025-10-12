@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { CourseOptionDto } from './dto/course-option.dto';
-import { ApiResponseDto } from './api-response.dto';
+import { ApiResponseDto } from '../common/dto/api-response.dto';
 
 @Injectable()
 export class CourseOptionService {

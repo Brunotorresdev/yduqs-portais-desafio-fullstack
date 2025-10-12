@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { CourseOptionService } from './course-option.service';
 import { CourseOptionDto } from './dto/course-option.dto';
 import { ApiExtraModels, ApiOkResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
-import { ApiResponseDto } from './api-response.dto';
+import { ApiResponseDto } from '../common/dto/api-response.dto';
 
 @ApiTags('course-options')
 @Controller('course-options')
