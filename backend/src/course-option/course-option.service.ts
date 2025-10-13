@@ -25,6 +25,15 @@ export class CourseOptionService {
         ? parseFloat(option.cash_value.toString())
         : null,
       tourns: option.tourns.map((t) => t.tourn),
+      installments: [
+        { parcels: 1, installment: 2613.6, total: 2613.6 },
+        { parcels: 3, installment: 900.9, total: 2702.7 },
+        { parcels: 6, installment: 465.3, total: 2791.8 },
+        { parcels: 9, installment: 320.1, total: 2880.9 },
+        { parcels: 12, installment: 247.5, total: 2946.0 },
+        { parcels: 15, installment: 200.97, total: 3014.55 },
+        { parcels: 18, installment: 169.95, total: 3059.1 },
+      ],
     }));
 
     return {

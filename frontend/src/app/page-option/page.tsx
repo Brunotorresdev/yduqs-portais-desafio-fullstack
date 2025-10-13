@@ -3,13 +3,14 @@
 import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
-import { Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { usePageOptions } from './hooks/usePageOptions';
+import CardOptions from './components/CardOptions';
+import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 
 export default function PageOption() {
-  const { data, isLoading, error } = usePageOptions();
-  console.log("🚀 ~ PageOption ~ data:", data)
-  
+  const { data, isLoading, error, isFetched } = usePageOptions();
+
   return (
     <div>
       <Header />
@@ -17,13 +18,16 @@ export default function PageOption() {
         title="Vamos começar, escolha as opções do seu curso"
         subTitle="Use os filtros para saber o preço do seu curso e fazer sua inscrição."
       />
-      <Typography variant="h4" gutterBottom>
-        MUI + Next.js funcionando!
-      </Typography>
-      <Button variant="contained" color="primary">
-        Clique aqui
-      </Button>
-      <div style={{ backgroundColor: '#001F66' }}>
+      <ContainerWrapper>
+        <Typography variant="h6" component="h2">
+          {data?.data?.length || '0'} opções encontradas
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+          {isFetched && data?.data.map((item: any) => <CardOptions key={item.id} item={item} />)}
+        </Box>
+      </ContainerWrapper>
+
+      <div style={{ backgroundColor: '#002F9D' }}>
         <Footer />
       </div>
     </div>
