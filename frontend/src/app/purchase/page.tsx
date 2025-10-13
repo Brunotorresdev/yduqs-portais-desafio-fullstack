@@ -22,12 +22,70 @@ const validationSchema = Yup.object({
   cpf: Yup.string()
     .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF deve estar no formato 000.000.000-00')
     .required('CPF é obrigatório'),
-  birthDate: Yup.string().required('Data de nascimento é obrigatória'),
+  birthDate: Yup.string()
+    .required('Data de nascimento é obrigatória')
+    .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Data deve estar no formato dd/mm/aaaa')
+    .test('valid-date', 'Data inválida', function(value) {
+      if (!value) return false;
+      
+      const [day, month, year] = value.split('/').map(Number);
+      
+      const date = new Date(year, month - 1, day);
+      if (date.getDate() !== day || date.getMonth() !== month - 1 || date.getFullYear() !== year) {
+        return false;
+      }
+      
+      const today = new Date();
+      if (date > today) {
+        return false;
+      }
+      
+      const minDate = new Date();
+      minDate.setFullYear(today.getFullYear() - 120);
+      if (date < minDate) {
+        return false;
+      }
+      
+      return true;
+    })
+    .test('age-validation', 'Data de nascimento inválida', function(value) {
+      if (!value) return false;
+      
+      const [day, month, year] = value.split('/').map(Number);
+      const birthDate = new Date(year, month - 1, day);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        return age - 1 >= 16;
+      }
+      
+      return age >= 16;
+    }),
   email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
   phone: Yup.string()
     .matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, 'Celular deve estar no formato (00) 00000-0000')
     .required('Celular é obrigatório'),
-  graduationYear: Yup.string().required('Ano de conclusão é obrigatório'),
+  graduationYear: Yup.string()
+    .required('Ano de conclusão é obrigatório')
+    .matches(/^\d{4}$/, 'Ano deve ter 4 dígitos')
+    .test('valid-year', 'Ano inválido', function(value) {
+      if (!value) return false;
+      
+      const year = parseInt(value);
+      const currentYear = new Date().getFullYear();
+      
+      if (year > currentYear) {
+        return false;
+      }
+      
+      if (year < 1950) {
+        return false;
+      }
+      
+      return true;
+    }),
   acceptTerms: Yup.boolean().oneOf([true], 'Você deve aceitar os termos'),
   acceptWhatsApp: Yup.boolean(),
 });
@@ -60,12 +118,18 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (values: any) => {
     console.log("🚀 ~ handleSubmit ~ values:", values)
+    
+    const convertBrazilianDateToISO = (dateString: string) => {
+      const [day, month, year] = dateString.split('/');
+      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toISOString();
+    };
+    
     const payload: PurchasePayload = {
       course_option_id: cardOptionId,
       client: {
         name: values.fullName,
         identifier: values.cpf.replace(/\D/g, ''), 
-        birth_date: new Date(values.birthDate).toISOString(),
+        birth_date: convertBrazilianDateToISO(values.birthDate),
         email: values.email,
         phone: values.phone.replace(/\D/g, ''),
         high_school_completion_year: Number(values.graduationYear),
