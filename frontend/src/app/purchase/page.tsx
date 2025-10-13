@@ -6,7 +6,6 @@ import { Header } from '@/components/layout/Header';
 import {
   Box,
   Button,
-  TextField,
   Typography,
   Checkbox,
   FormControlLabel,
@@ -15,7 +14,8 @@ import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useSearchParams } from 'next/navigation';
-import { useCreatePurchase } from './hooks/useCreatePurchase'; // 🔥 importa o hook
+import { useCreatePurchase } from './hooks/useCreatePurchase';
+import { FormInput } from '@/components/forms/FormInput'; 
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required('Nome completo é obrigatório'),
@@ -56,7 +56,7 @@ export default function RegistrationForm() {
   const selectedParcel = searchParams.get('selectedParcel');
   const parcelData = selectedParcel ? JSON.parse(selectedParcel) : null;
 
-  const createPurchase = useCreatePurchase(); // 🔥 usa o hook de post
+  const createPurchase = useCreatePurchase(); 
 
   const handleSubmit = async (values: any) => {
     console.log("🚀 ~ handleSubmit ~ values:", values)
@@ -64,10 +64,10 @@ export default function RegistrationForm() {
       course_option_id: cardOptionId,
       client: {
         name: values.fullName,
-        identifier: values.cpf.replace(/\D/g, ''), // remove pontos e traço
+        identifier: values.cpf.replace(/\D/g, ''), 
         birth_date: new Date(values.birthDate).toISOString(),
         email: values.email,
-        phone: values.phone.replace(/\D/g, ''), // remove caracteres não numéricos
+        phone: values.phone.replace(/\D/g, ''),
         high_school_completion_year: Number(values.graduationYear),
       },
       accepted_terms: values.acceptTerms,
@@ -120,7 +120,6 @@ export default function RegistrationForm() {
       <Banner title="Queremos saber um pouco mais sobre você" />
       <ContainerWrapper>
         <Box sx={{ my: 4, p: 4 }}>
-          {/* ...seu Formik permanece igual, só muda o onSubmit */}
           <Formik
             initialValues={{
               fullName: '',
@@ -135,108 +134,46 @@ export default function RegistrationForm() {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ values, handleChange, handleBlur, setFieldValue, isSubmitting }) => (
+            {({ values, handleChange, handleBlur, setFieldValue, isSubmitting, isValid, dirty }) => (
               <Form>
-                <Box mb={3}>
-                  <TextField
-                    sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
-                    fullWidth
-                    placeholder="Nome completo"
-                    name="fullName"
-                    value={values.fullName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={<ErrorMessage name="fullName" />}
-                    error={!!(values.fullName && ErrorMessage)}
-                  />
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                    Preencha seu nome completo, sem abreviações, igual ao seu documento de
-                    identificação. Confira o exemplo.
-                  </Typography>
-                </Box>
+                <FormInput
+                  name="fullName"
+                  placeholder="Nome completo"
+                  helperText="Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação. Confira o exemplo."
+                />
 
-                <Box mb={3}>
-                  <TextField
-                    sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
-                    fullWidth
-                    placeholder="CPF"
-                    name="cpf"
-                    value={values.cpf}
-                    onChange={(e) => {
-                      const formatted = formatCPF(e.target.value);
-                      setFieldValue('cpf', formatted);
-                    }}
-                    onBlur={handleBlur}
-                    helperText={<ErrorMessage name="cpf" />}
-                    error={!!(values.cpf && ErrorMessage)}
-                    inputProps={{ maxLength: 14 }}
-                  />
-                </Box>
+                <FormInput
+                  name="cpf"
+                  placeholder="CPF"
+                  maxLength={14}
+                  formatValue={formatCPF}
+                />
 
-                <Box mb={3}>
-                  <TextField
-                    sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
-                    fullWidth
-                    placeholder="Data de nascimento"
-                    name="birthDate"
-                    value={values.birthDate}
-                    onChange={(e) => {
-                      const formatted = formatDate(e.target.value);
-                      setFieldValue('birthDate', formatted);
-                    }}
-                    onBlur={handleBlur}
-                    helperText={<ErrorMessage name="birthDate" />}
-                    error={!!(values.birthDate && ErrorMessage)}
-                    inputProps={{ maxLength: 10 }}
-                  />
-                </Box>
+                <FormInput
+                  name="birthDate"
+                  placeholder="Data de nascimento"
+                  maxLength={10}
+                  formatValue={formatDate}
+                />
 
-                <Box mb={3}>
-                  <TextField
-                    sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
-                    fullWidth
-                    placeholder="E-mail"
-                    name="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={<ErrorMessage name="email" />}
-                    error={!!(values.email && ErrorMessage)}
-                  />
-                </Box>
+                <FormInput
+                  name="email"
+                  placeholder="E-mail"
+                  type="email"
+                />
 
-                <Box mb={3}>
-                  <TextField
-                    sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
-                    fullWidth
-                    placeholder="Celular para contato"
-                    name="phone"
-                    value={values.phone}
-                    onChange={(e) => {
-                      const formatted = formatPhone(e.target.value);
-                      setFieldValue('phone', formatted);
-                    }}
-                    onBlur={handleBlur}
-                    helperText={<ErrorMessage name="phone" />}
-                    error={!!(values.phone && ErrorMessage)}
-                    inputProps={{ maxLength: 15 }}
-                  />
-                </Box>
+                <FormInput
+                  name="phone"
+                  placeholder="Celular para contato"
+                  maxLength={15}
+                  formatValue={formatPhone}
+                />
 
-                <Box mb={3}>
-                  <TextField
-                    sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
-                    fullWidth
-                    placeholder="Ano de conclusão do ensino ..."
-                    name="graduationYear"
-                    value={values.graduationYear}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={<ErrorMessage name="graduationYear" />}
-                    error={!!(values.graduationYear && ErrorMessage)}
-                    inputProps={{ maxLength: 4 }}
-                  />
-                </Box>
+                <FormInput
+                  name="graduationYear"
+                  placeholder="Ano de conclusão do ensino ..."
+                  maxLength={4}
+                />
 
                 <Box mb={3}>
                   <FormControlLabel
@@ -274,7 +211,7 @@ export default function RegistrationForm() {
                     type="submit"
                     variant="contained"
                     color="primary"
-                    disabled={isSubmitting || createPurchase.isPending}
+                    disabled={isSubmitting || createPurchase.isPending || !isValid || !dirty}
                     sx={{
                       px: 6,
                       py: 1.5,
