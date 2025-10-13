@@ -37,11 +37,6 @@ export class PurchaseService {
       throw new NotFoundException('Course option not found.');
     }
 
-    if (!courseOption.value) {
-      throw new BadRequestException(
-        'This course option is not available for purchase.',
-      );
-    }
 
     const client = await this.clientService.findOrCreate({
       ...clientInfo,

@@ -9,8 +9,8 @@ import {
 import { ApiResponseDto } from 'src/common/dto/api-response.dto';
 import { Purchase } from '@prisma/client';
 
-@ApiTags('purchases')
-@Controller('purchases')
+@ApiTags('purchase')
+@Controller('purchase')
 export class PurchaseController {
   constructor(private readonly purchaseService: PurchaseService) {}
 

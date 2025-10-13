@@ -10,21 +10,19 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
-  Link,
 } from '@mui/material';
 import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useSearchParams } from 'next/navigation';
+import { useCreatePurchase } from './hooks/useCreatePurchase'; // 🔥 importa o hook
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required('Nome completo é obrigatório'),
   cpf: Yup.string()
     .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF deve estar no formato 000.000.000-00')
     .required('CPF é obrigatório'),
-  birthDate: Yup.date()
-    .max(new Date(), 'Data de nascimento não pode ser futura')
-    .required('Data de nascimento é obrigatória'),
+  birthDate: Yup.string().required('Data de nascimento é obrigatória'),
   email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
   phone: Yup.string()
     .matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, 'Celular deve estar no formato (00) 00000-0000')
@@ -34,16 +32,62 @@ const validationSchema = Yup.object({
   acceptWhatsApp: Yup.boolean(),
 });
 
+interface PurchasePayload {
+  course_option_id?: string | null;
+  client: {
+    name: string;
+    identifier: string;
+    birth_date: string;
+    email: string;
+    phone: string;
+    high_school_completion_year: number;
+  };
+  accepted_terms: boolean;
+  accepted_whatsapp_updates: boolean;
+  total_installments?: number;
+  installment_value?: number;
+  total_value?: number;
+}
+
+
 export default function RegistrationForm() {
   const searchParams = useSearchParams();
   const cardOptionId = searchParams.get('cardOptionId');
   const selectedParcel = searchParams.get('selectedParcel');
   const parcelData = selectedParcel ? JSON.parse(selectedParcel) : null;
 
-  const handleSubmit = (values: any) => {
-    const data = { ...values, cardOptionId, parcelData };
-    console.log('Form submitted with data:', data);
+  const createPurchase = useCreatePurchase(); // 🔥 usa o hook de post
+
+  const handleSubmit = async (values: any) => {
+    console.log("🚀 ~ handleSubmit ~ values:", values)
+    const payload: PurchasePayload = {
+      course_option_id: cardOptionId,
+      client: {
+        name: values.fullName,
+        identifier: values.cpf.replace(/\D/g, ''), // remove pontos e traço
+        birth_date: new Date(values.birthDate).toISOString(),
+        email: values.email,
+        phone: values.phone.replace(/\D/g, ''), // remove caracteres não numéricos
+        high_school_completion_year: Number(values.graduationYear),
+      },
+      accepted_terms: values.acceptTerms,
+      accepted_whatsapp_updates: values.acceptWhatsApp,
+      total_installments: parcelData?.parcels,
+      installment_value: parcelData?.installment,
+      total_value: parcelData?.total,
+    };
+
+    console.log('Payload enviado ao backend:', payload);
+
+    try {
+      await createPurchase.mutateAsync(payload);
+      alert('Compra criada com sucesso!');
+    } catch (error) {
+      console.error('Erro ao criar compra:', error);
+      alert('Ocorreu um erro ao enviar os dados.');
+    }
   };
+
 
   const formatCPF = (value: string) => {
     const numbers = value.replace(/\D/g, '');
@@ -71,12 +115,12 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div>
+    <>
       <Header />
       <Banner title="Queremos saber um pouco mais sobre você" />
-
       <ContainerWrapper>
         <Box sx={{ my: 4, p: 4 }}>
+          {/* ...seu Formik permanece igual, só muda o onSubmit */}
           <Formik
             initialValues={{
               fullName: '',
@@ -230,19 +274,17 @@ export default function RegistrationForm() {
                     type="submit"
                     variant="contained"
                     color="primary"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || createPurchase.isPending}
                     sx={{
                       px: 6,
                       py: 1.5,
                       fontSize: '1.1rem',
                       fontWeight: 'bold',
                       backgroundColor: '#002F9D',
-                      '&:hover': {
-                        backgroundColor: '#002080',
-                      },
+                      '&:hover': { backgroundColor: '#002080' },
                     }}
                   >
-                    Avançar
+                    {createPurchase.isPending ? 'Enviando...' : 'Avançar'}
                   </Button>
                 </Box>
               </Form>
@@ -250,10 +292,9 @@ export default function RegistrationForm() {
           </Formik>
         </Box>
       </ContainerWrapper>
-
       <div style={{ backgroundColor: '#002F9D' }}>
         <Footer isDefault />
       </div>
-    </div>
+    </>
   );
 }
