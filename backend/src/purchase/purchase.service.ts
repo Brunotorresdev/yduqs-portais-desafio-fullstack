@@ -25,6 +25,8 @@ export class PurchaseService {
       total_installments,
       accepted_terms,
       accepted_whatsapp_updates,
+      total_value,
+      installment_value,
     } = purchaseData;
 
     const courseOption = await this.prisma.courseOption.findUnique({
@@ -46,9 +48,6 @@ export class PurchaseService {
       accepted_terms,
       accepted_whatsapp_updates,
     });
-
-    const total_value = courseOption.value;
-    const installment_value = total_value.toNumber() / total_installments;
 
     const newPurchase = await this.prisma.purchase.create({
       data: {

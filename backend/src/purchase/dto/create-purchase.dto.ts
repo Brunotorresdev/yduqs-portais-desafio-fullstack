@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsUUID,
   ValidateNested,
 } from 'class-validator';
@@ -19,6 +20,7 @@ export class CreatePurchaseDto {
 
   @ApiProperty({ example: 12 })
   @IsInt()
+  @IsOptional()
   total_installments: number;
 
   @ApiProperty({ type: () => CreateClientDto })
@@ -33,4 +35,12 @@ export class CreatePurchaseDto {
   @ApiProperty({ example: false })
   @IsBoolean()
   accepted_whatsapp_updates: boolean;
+
+  @ApiProperty({ example: 1200.5 })
+  @IsOptional()
+  total_value: number;
+
+  @ApiProperty({ example: 100.25 })
+  @IsOptional()
+  installment_value: number;
 }

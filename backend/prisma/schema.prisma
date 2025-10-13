@@ -61,8 +61,8 @@ model Purchase {
   client_id         String
   course_option     CourseOption @relation(fields: [course_option_id], references: [id])
   course_option_id  String
-  total_installments Int
-  installment_value Decimal
-  total_value       Decimal
+  total_installments Int?
+  installment_value Decimal?
+  total_value       Decimal?
   created_at        DateTime     @default(now())
 }
