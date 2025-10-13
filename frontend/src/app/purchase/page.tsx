@@ -15,6 +15,7 @@ import {
 import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useSearchParams } from 'next/navigation';
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required('Nome completo é obrigatório'),
@@ -34,8 +35,14 @@ const validationSchema = Yup.object({
 });
 
 export default function RegistrationForm() {
+  const searchParams = useSearchParams();
+  const cardOptionId = searchParams.get('cardOptionId');
+  const selectedParcel = searchParams.get('selectedParcel');
+  const parcelData = selectedParcel ? JSON.parse(selectedParcel) : null;
+
   const handleSubmit = (values: any) => {
-    console.log('Form values:', values);
+    const data = { ...values, cardOptionId, parcelData };
+    console.log('Form submitted with data:', data);
   };
 
   const formatCPF = (value: string) => {

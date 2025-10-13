@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import {
   Box,
   Typography,
@@ -9,27 +10,47 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
+  Divider,
 } from '@mui/material';
 import { PurchaseOptionsFooter } from './PurchaseOptionsFooter';
-import { useState } from 'react';
+
+interface ModalOptionsValuesProps {
+  hasValue: boolean;
+  installments?: { parcels: number; installment: number; total: number }[];
+  formik: any;
+}
 
 export function ModalOptionsValues({
-  open,
-  setOpen,
   hasValue,
-  installments,
-}: {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  hasValue: boolean;
-  cashValue?: number;
-  installments?: any;
-}) {
-  const [selectedParcel, setSelectedParcel] = useState<string>('');
+  installments = [],
+  formik,
+}: ModalOptionsValuesProps) {
+  const router = useRouter();
+
+  const handleAdvance = () => {
+    const selectedOption = installments.find(
+      (opt) => opt.parcels === Number(formik.values.selectedParcel)
+    );
+
+    const selectedOptionConverted = selectedOption ? JSON.stringify(selectedOption) : '';
+
+    const query = new URLSearchParams({
+      cardOptionId: formik.values.cardOptionId,
+      selectedParcel: selectedOptionConverted,
+    }).toString();
+
+    router.push(`/purchase?${query}`);
+  };
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+    <Dialog
+      open={formik.values.open}
+      onClose={() => formik.setFieldValue('open', false)}
+      maxWidth="sm"
+      fullWidth
+    >
       <DialogTitle sx={{ fontWeight: 'bold' }}>Mais detalhes</DialogTitle>
+      <Divider color="#E0E0E0" />
       <DialogContent>
         {hasValue ? (
           <>
@@ -55,11 +76,13 @@ export function ModalOptionsValues({
                 <Typography>Parcelas</Typography>
                 <Typography>Total</Typography>
               </Box>
+
               <RadioGroup
-                value={selectedParcel}
-                onChange={(e) => setSelectedParcel(e.target.value)}
+                name="selectedParcel"
+                value={formik.values.selectedParcel}
+                onChange={formik.handleChange}
               >
-                {installments.map((opt: any) => (
+                {installments.map((opt) => (
                   <Box
                     key={opt.parcels}
                     sx={{
@@ -68,7 +91,7 @@ export function ModalOptionsValues({
                       alignItems: 'center',
                       px: 2,
                       py: 1,
-                      borderTop: '1px solid #E0E0E0',
+                      borderTop: '1px solid #144BC8',
                     }}
                   >
                     <FormControlLabel
@@ -85,38 +108,54 @@ export function ModalOptionsValues({
                 ))}
               </RadioGroup>
             </Box>
+            <PurchaseOptionsFooter />
+
+            <Button
+              variant="contained"
+              onClick={handleAdvance}
+              sx={{
+                backgroundColor: '#FF3D5B',
+                color: '#FFF',
+                borderRadius: '12px',
+                textTransform: 'none',
+                width: '100%',
+                fontWeight: 'bold',
+                fontSize: 16,
+                py: 1.2,
+                '&:hover': { backgroundColor: '#E73350' },
+                mt: 2,
+              }}
+            >
+              Avançar
+            </Button>
           </>
         ) : (
-          <Typography sx={{ mb: 2 }}>
-            Inscreva-se para saber tudo sobre os valores e garantir a sua vaga!
-          </Typography>
+          <>
+            <Typography sx={{ mb: 2 }}>
+              Inscreva-se para saber tudo sobre os valores e garantir a sua vaga!
+            </Typography>
+            <PurchaseOptionsFooter />
+
+            <Button
+              variant="contained"
+              onClick={handleAdvance}
+              sx={{
+                backgroundColor: '#FF3D5B',
+                color: '#FFF',
+                borderRadius: '12px',
+                textTransform: 'none',
+                width: '100%',
+                fontWeight: 'bold',
+                fontSize: 16,
+                py: 1.2,
+                '&:hover': { backgroundColor: '#E73350' },
+                mt: 2,
+              }}
+            >
+              Avançar
+            </Button>
+          </>
         )}
-
-        <PurchaseOptionsFooter />
-
-        <Button
-          variant="contained"
-          onClick={() => {
-            const selectedOption = installments.find(
-              (opt: any) => opt.parcels === Number(selectedParcel)
-            );
-            console.log('Parcelas escolhidas:', selectedOption);
-            setOpen(false);
-          }}
-          sx={{
-            backgroundColor: '#FF3D5B',
-            color: '#FFF',
-            borderRadius: '12px',
-            textTransform: 'none',
-            width: '100%',
-            fontWeight: 'bold',
-            fontSize: 16,
-            py: 1.2,
-            '&:hover': { backgroundColor: '#E73350' },
-          }}
-        >
-          Avançar
-        </Button>
       </DialogContent>
     </Dialog>
   );
