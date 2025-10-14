@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { CreateClientDto } from './dto/create-client.dto';
-import { Client } from '@prisma/client';
 
 type ClientInput = CreateClientDto & {
   accepted_terms: boolean;
@@ -12,7 +11,7 @@ type ClientInput = CreateClientDto & {
 export class ClientService {
   constructor(private prisma: PrismaService) {}
 
-  async findOrCreate(clientData: ClientInput): Promise<Client> {
+  async findOrCreate(clientData: ClientInput) {
     const existingClient = await this.prisma.client.findUnique({
       where: { identifier: clientData.identifier },
     });
