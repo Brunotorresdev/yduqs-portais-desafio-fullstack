@@ -11,6 +11,8 @@ import {
   RadioGroup,
   FormControlLabel,
   Divider,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { PurchaseOptionsFooter } from './PurchaseOptionsFooter';
 import { Close } from '@mui/icons-material';
@@ -28,6 +30,9 @@ export function ModalOptionsValues({
 }: ModalOptionsValuesProps) {
   const router = useRouter();
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+
   const handleAdvance = () => {
     const selectedOption = installments.find(
       opt => opt.parcels === Number(formik.values.selectedParcel)
@@ -43,10 +48,15 @@ export function ModalOptionsValues({
     router.push(`/purchase?${query}`);
   };
 
+  const handleClose = () => {
+    formik.setFieldValue('open', false);
+  };
+
+
   return (
     <Dialog
       open={formik.values.open}
-      onClose={() => formik.setFieldValue('open', false)}
+      onClose={() => handleClose()}
       maxWidth='sm'
       fullWidth
     >
@@ -54,21 +64,22 @@ export function ModalOptionsValues({
         <DialogTitle
           sx={{
             fontFamily: '"Montserrat", "Roboto", sans-serif',
-            fontSize: 32,
+            fontSize: isMobile ? 24 : 32,
             fontWeight: 500,
             lineHeight: '120%',
             color: '#121212',
+            padding: isMobile ? '16px 20px' : '16px 24px',
           }}
         >
           Mais detalhes
         </DialogTitle>
         <Box sx={{padding: '0 16px 0 25px'}}>
 
-        <Close/>
+        <Close onClick={handleClose} sx={{ cursor: 'pointer' }}  />
         </Box>
       </Box>
       <Divider color='#E0E0E0' />
-      <DialogContent sx={{paddingTop: '24px'}}>
+      <DialogContent sx={{paddingTop: isMobile ? '16px' : '24px 0 16px 0'}}>
         {hasValue ? (
           <>
             <Typography sx={{ mb: 2 }}>Qual dessas opções de parcelas você prefere?</Typography>
@@ -90,8 +101,8 @@ export function ModalOptionsValues({
                   color: '#FFF',
                 }}
               >
-                <Typography>Parcelas</Typography>
-                <Typography mr={'58px'}>Total</Typography>
+                <Typography fontSize={'16px'} fontWeight={400} >Parcelas</Typography>
+                <Typography fontSize={'16px'} fontWeight={400} mr={isMobile ? '16px' : '58px'}>Total</Typography>
               </Box>
 
               <RadioGroup

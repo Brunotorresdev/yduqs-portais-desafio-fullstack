@@ -11,7 +11,7 @@ import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 export default function PageOption() {
   const { data, isLoading, isFetched } = usePageOptions();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // sm = telas < 600px
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
   return (
     <Box>

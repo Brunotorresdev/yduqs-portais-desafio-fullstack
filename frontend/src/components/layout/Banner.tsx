@@ -10,7 +10,7 @@ type BannerProps = {
 
 export function Banner({ title, subTitle }: BannerProps): JSX.Element {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // sm = telas < 600px
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
   return (
     <div

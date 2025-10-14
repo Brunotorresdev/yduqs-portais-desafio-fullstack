@@ -171,7 +171,7 @@ export default function RegistrationForm() {
   };
 
     const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // sm = telas < 600px
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
   return (
     <>
@@ -262,7 +262,7 @@ export default function RegistrationForm() {
 
                 <Box sx={{ borderTop: 1, borderColor: 'divider', my: 3 }} />
 
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <Button
                     type='submit'
                     variant='contained'

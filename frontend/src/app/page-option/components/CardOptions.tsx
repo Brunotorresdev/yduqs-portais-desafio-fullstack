@@ -30,7 +30,7 @@ export default function CardOptions({ item }: CardOptionsProps) {
   const installments = hasValue ? item.installments || [] : [];
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // sm = telas < 600px
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
   return (
     <Formik

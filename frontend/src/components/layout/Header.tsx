@@ -5,7 +5,7 @@ import { useMediaQuery, useTheme, Box } from '@mui/material';
 
 export function Header(): JSX.Element {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // sm = telas < 600px
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
   return (
     <header style={{ padding: isMobile ? '16px 0' : '24px 0' }}>
