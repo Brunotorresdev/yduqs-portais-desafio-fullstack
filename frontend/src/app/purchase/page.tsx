@@ -3,19 +3,13 @@
 import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
-import {
-  Box,
-  Button,
-  Typography,
-  Checkbox,
-  FormControlLabel,
-} from '@mui/material';
+import { Box, Button, Typography, Checkbox, FormControlLabel } from '@mui/material';
 import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useSearchParams } from 'next/navigation';
 import { useCreatePurchase } from './hooks/useCreatePurchase';
-import { FormInput } from '@/components/forms/FormInput'; 
+import { FormInput } from '@/components/forms/FormInput';
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required('Nome completo é obrigatório'),
@@ -25,42 +19,42 @@ const validationSchema = Yup.object({
   birthDate: Yup.string()
     .required('Data de nascimento é obrigatória')
     .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Data deve estar no formato dd/mm/aaaa')
-    .test('valid-date', 'Data inválida', function(value) {
+    .test('valid-date', 'Data inválida', function (value) {
       if (!value) return false;
-      
+
       const [day, month, year] = value.split('/').map(Number);
-      
+
       const date = new Date(year, month - 1, day);
       if (date.getDate() !== day || date.getMonth() !== month - 1 || date.getFullYear() !== year) {
         return false;
       }
-      
+
       const today = new Date();
       if (date > today) {
         return false;
       }
-      
+
       const minDate = new Date();
       minDate.setFullYear(today.getFullYear() - 120);
       if (date < minDate) {
         return false;
       }
-      
+
       return true;
     })
-    .test('age-validation', 'Data de nascimento inválida', function(value) {
+    .test('age-validation', 'Data de nascimento inválida', function (value) {
       if (!value) return false;
-      
+
       const [day, month, year] = value.split('/').map(Number);
       const birthDate = new Date(year, month - 1, day);
       const today = new Date();
       const age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
-      
+
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         return age - 1 >= 16;
       }
-      
+
       return age >= 16;
     }),
   email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
@@ -70,20 +64,20 @@ const validationSchema = Yup.object({
   graduationYear: Yup.string()
     .required('Ano de conclusão é obrigatório')
     .matches(/^\d{4}$/, 'Ano deve ter 4 dígitos')
-    .test('valid-year', 'Ano inválido', function(value) {
+    .test('valid-year', 'Ano inválido', function (value) {
       if (!value) return false;
-      
+
       const year = parseInt(value);
       const currentYear = new Date().getFullYear();
-      
+
       if (year > currentYear) {
         return false;
       }
-      
+
       if (year < 1950) {
         return false;
       }
-      
+
       return true;
     }),
   acceptTerms: Yup.boolean().oneOf([true], 'Você deve aceitar os termos'),
@@ -107,28 +101,27 @@ interface PurchasePayload {
   total_value?: number;
 }
 
-
 export default function RegistrationForm() {
   const searchParams = useSearchParams();
   const cardOptionId = searchParams.get('cardOptionId');
   const selectedParcel = searchParams.get('selectedParcel');
   const parcelData = selectedParcel ? JSON.parse(selectedParcel) : null;
 
-  const createPurchase = useCreatePurchase(); 
+  const createPurchase = useCreatePurchase();
 
   const handleSubmit = async (values: any) => {
-    console.log("🚀 ~ handleSubmit ~ values:", values)
-    
+    console.log('🚀 ~ handleSubmit ~ values:', values);
+
     const convertBrazilianDateToISO = (dateString: string) => {
       const [day, month, year] = dateString.split('/');
       return new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toISOString();
     };
-    
+
     const payload: PurchasePayload = {
       course_option_id: cardOptionId,
       client: {
         name: values.fullName,
-        identifier: values.cpf.replace(/\D/g, ''), 
+        identifier: values.cpf.replace(/\D/g, ''),
         birth_date: convertBrazilianDateToISO(values.birthDate),
         email: values.email,
         phone: values.phone.replace(/\D/g, ''),
@@ -151,7 +144,6 @@ export default function RegistrationForm() {
       alert('Ocorreu um erro ao enviar os dados.');
     }
   };
-
 
   const formatCPF = (value: string) => {
     const numbers = value.replace(/\D/g, '');
@@ -181,7 +173,7 @@ export default function RegistrationForm() {
   return (
     <>
       <Header />
-      <Banner title="Queremos saber um pouco mais sobre você" />
+      <Banner title='Queremos saber um pouco mais sobre você' />
       <ContainerWrapper>
         <Box sx={{ my: 4, p: 4 }}>
           <Formik
@@ -198,53 +190,48 @@ export default function RegistrationForm() {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ values, handleChange, handleBlur, setFieldValue, isSubmitting, isValid, dirty }) => (
+            {({
+              isSubmitting,
+              isValid,
+              dirty,
+            }) => (
               <Form>
                 <FormInput
-                  name="fullName"
-                  placeholder="Nome completo"
-                  helperText="Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação. Confira o exemplo."
+                  name='fullName'
+                  placeholder='Nome completo'
+                  helperText='Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação. Confira o exemplo.'
                 />
 
-                <FormInput
-                  name="cpf"
-                  placeholder="CPF"
-                  maxLength={14}
-                  formatValue={formatCPF}
-                />
+                <FormInput name='cpf' placeholder='CPF' maxLength={14} formatValue={formatCPF} />
 
                 <FormInput
-                  name="birthDate"
-                  placeholder="Data de nascimento"
+                  name='birthDate'
+                  placeholder='Data de nascimento'
                   maxLength={10}
                   formatValue={formatDate}
                 />
 
-                <FormInput
-                  name="email"
-                  placeholder="E-mail"
-                  type="email"
-                />
+                <FormInput name='email' placeholder='E-mail' type='email' />
 
                 <FormInput
-                  name="phone"
-                  placeholder="Celular para contato"
+                  name='phone'
+                  placeholder='Celular para contato'
                   maxLength={15}
                   formatValue={formatPhone}
                 />
 
                 <FormInput
-                  name="graduationYear"
-                  placeholder="Ano de conclusão do ensino ..."
+                  name='graduationYear'
+                  placeholder='Ano de conclusão do ensino ...'
                   maxLength={4}
                 />
 
                 <Box mb={3}>
                   <FormControlLabel
                     sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
-                    control={<Field as={Checkbox} name="acceptTerms" color="primary" />}
+                    control={<Field as={Checkbox} name='acceptTerms' color='primary' />}
                     label={
-                      <Typography variant="body2">
+                      <Typography variant='body2'>
                         Li e concordo com os termos do edital, bem como com o tratamento dos meus
                         dados para fins de prospecção dos serviços educacionais prestados pela
                         Estácio e demais instituições de ensino do mesmo Grupo Econômico, de acordo
@@ -253,15 +240,15 @@ export default function RegistrationForm() {
                     }
                   />
                   <div style={{ color: 'red', fontSize: '0.75rem', marginTop: '3px' }}>
-                    <ErrorMessage name="acceptTerms" component="div" />
+                    <ErrorMessage name='acceptTerms' component='div' />
                   </div>
                 </Box>
 
                 <Box mb={4}>
                   <FormControlLabel
-                    control={<Field as={Checkbox} name="acceptWhatsApp" color="primary" />}
+                    control={<Field as={Checkbox} name='acceptWhatsApp' color='primary' />}
                     label={
-                      <Typography variant="body2">
+                      <Typography variant='body2'>
                         Aceito receber atualizações sobre minha inscrição pelo WhatsApp.
                       </Typography>
                     }
@@ -272,9 +259,9 @@ export default function RegistrationForm() {
 
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                   <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
+                    type='submit'
+                    variant='contained'
+                    color='primary'
                     disabled={isSubmitting || createPurchase.isPending || !isValid || !dirty}
                     sx={{
                       px: 6,
@@ -293,7 +280,7 @@ export default function RegistrationForm() {
           </Formik>
         </Box>
       </ContainerWrapper>
-      <div style={{ backgroundColor: '#002F9D' }}>
+      <div style={{ backgroundColor: '#002F9D', marginTop: '56px' }}>
         <Footer isDefault />
       </div>
     </>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, useTheme, useMediaQuery } from '@mui/material';
 import { ModalOptionsValues } from './ModalOptionsValues';
 import { Formik } from 'formik';
 
@@ -29,27 +29,28 @@ export default function CardOptions({ item }: CardOptionsProps) {
   const tournName = item.tourns?.[0]?.name || '';
   const installments = hasValue ? item.installments || [] : [];
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // sm = telas < 600px
+
   return (
     <Formik
       initialValues={{ cardOptionId: '', selectedParcel: '', open: false }}
-      onSubmit={(values) => console.log('Form values:', values)}
+      onSubmit={values => console.log('Form values:', values)}
     >
-      {(formik) => (
+      {formik => (
         <>
           <Box
             sx={{
-              width: 320,
-              border: '1px solid #144BC8',
-              borderRadius: 2,
+              width: isMobile ? 288 : 320,
+              borderRadius: '8px 8px 0 0',
               overflow: 'hidden',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
             }}
           >
-            <Box sx={{ backgroundColor: '#001F66', color: '#FFF', p: 2 }}>
-              <Typography fontWeight="bold">{tournName}</Typography>
+            <Box sx={{ backgroundColor: '#001F66', color: '#FFF', p: '8px 16px' }}>
+              <Typography fontWeight='bold'>{tournName}</Typography>
             </Box>
 
-            <Box sx={{ backgroundColor: '#144BC8', color: '#FFF', p: 2 }}>
+            <Box sx={{ backgroundColor: '#144BC8', color: '#FFF', p: '24px 16px 16px 16px' }}>
               {hasValue ? (
                 <>
                   <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
@@ -59,14 +60,14 @@ export default function CardOptions({ item }: CardOptionsProps) {
                     <Typography sx={{ fontSize: 14, opacity: 0.8 }}>por até</Typography>
                   </Box>
 
-                  <Typography variant="h4" fontWeight="bold">
+                  <Typography variant='h4' fontWeight='bold'>
                     18x R${' '}
                     {installments
-                      .find((i) => i.parcels === 18)
+                      .find(i => i.parcels === 18)
                       ?.installment.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </Typography>
 
-                  <Typography sx={{ mb: 2 }}>
+                  <Typography>
                     à vista R${' '}
                     {item.cash_value!.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </Typography>
@@ -78,7 +79,7 @@ export default function CardOptions({ item }: CardOptionsProps) {
               )}
 
               <Button
-                variant="contained"
+                variant='contained'
                 onClick={() => {
                   formik.setFieldValue('open', true);
                   formik.setFieldValue('cardOptionId', item.id);
@@ -92,7 +93,7 @@ export default function CardOptions({ item }: CardOptionsProps) {
                   fontWeight: 'bold',
                   fontSize: 16,
                   py: 1.2,
-                  mt: 2,
+                  mt: '24px',
                   '&:hover': { backgroundColor: '#E73350' },
                 }}
               >
@@ -100,11 +101,18 @@ export default function CardOptions({ item }: CardOptionsProps) {
               </Button>
             </Box>
 
-            <Box sx={{ p: 2, backgroundColor: '#FFF' }}>
-              <Typography fontWeight="bold">
+            <Box
+              sx={{
+                p: 2,
+                backgroundColor: '#FFF',
+                border: '1px solid #144BC8',
+                borderRadius: '0 0 8px 8px',
+              }}
+            >
+              <Typography fontWeight='bold'>
                 {item.city} - {item.street_neighborhood}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant='body2' color='text.secondary'>
                 {item.street}, Nº {item.street_number} - {item.street_neighborhood} - {item.city}
               </Typography>
             </Box>
