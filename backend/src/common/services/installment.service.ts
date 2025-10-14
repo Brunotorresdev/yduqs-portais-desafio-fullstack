@@ -8,18 +8,16 @@ export interface InstallmentOption {
 
 @Injectable()
 export class InstallmentService {
-  /**
-   * Calcula as opções de parcelamento baseado no valor do curso
-   */
+ 
   calculateInstallments(baseValue: number): InstallmentOption[] {
     const interestRates = {
-      1: 0,      // À vista - sem juros
-      3: 0.03,   // 3 parcelas - 3% de juros
-      6: 0.07,   // 6 parcelas - 7% de juros
-      9: 0.10,   // 9 parcelas - 10% de juros
-      12: 0.13,  // 12 parcelas - 13% de juros
-      15: 0.15,  // 15 parcelas - 15% de juros
-      18: 0.17,  // 18 parcelas - 17% de juros
+      1: 0,      
+      3: 0.03, 
+      6: 0.07, 
+      9: 0.10, 
+      12: 0.13,
+      15: 0.15,
+      18: 0.17,
     };
 
     return Object.entries(interestRates).map(([parcels, rate]) => {
@@ -34,20 +32,17 @@ export class InstallmentService {
     });
   }
 
-  /**
-   * Valida se os valores de parcelamento são consistentes
-   */
   validateInstallmentValues(
     totalInstallments: number,
     installmentValue: number,
     totalValue: number,
   ): boolean {
     if (!totalInstallments || !installmentValue || !totalValue) {
-      return true; // Valores opcionais
+      return true; 
     }
 
     const calculatedTotal = installmentValue * totalInstallments;
-    const tolerance = 0.01; // Tolerância de 1 centavo para arredondamentos
+    const tolerance = 0.01; 
 
     return Math.abs(calculatedTotal - totalValue) <= tolerance;
   }

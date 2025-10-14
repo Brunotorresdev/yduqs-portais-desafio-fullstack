@@ -13,6 +13,7 @@ import {
   Divider,
 } from '@mui/material';
 import { PurchaseOptionsFooter } from './PurchaseOptionsFooter';
+import { Close } from '@mui/icons-material';
 
 interface ModalOptionsValuesProps {
   hasValue: boolean;
@@ -29,7 +30,7 @@ export function ModalOptionsValues({
 
   const handleAdvance = () => {
     const selectedOption = installments.find(
-      (opt) => opt.parcels === Number(formik.values.selectedParcel)
+      opt => opt.parcels === Number(formik.values.selectedParcel)
     );
 
     const selectedOptionConverted = selectedOption ? JSON.stringify(selectedOption) : '';
@@ -46,12 +47,28 @@ export function ModalOptionsValues({
     <Dialog
       open={formik.values.open}
       onClose={() => formik.setFieldValue('open', false)}
-      maxWidth="sm"
+      maxWidth='sm'
       fullWidth
     >
-      <DialogTitle sx={{ fontWeight: 'bold' }}>Mais detalhes</DialogTitle>
-      <Divider color="#E0E0E0" />
-      <DialogContent>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+        <DialogTitle
+          sx={{
+            fontFamily: '"Montserrat", "Roboto", sans-serif',
+            fontSize: 32,
+            fontWeight: 500,
+            lineHeight: '120%',
+            color: '#121212',
+          }}
+        >
+          Mais detalhes
+        </DialogTitle>
+        <Box sx={{padding: '0 16px 0 25px'}}>
+
+        <Close/>
+        </Box>
+      </Box>
+      <Divider color='#E0E0E0' />
+      <DialogContent sx={{paddingTop: '24px'}}>
         {hasValue ? (
           <>
             <Typography sx={{ mb: 2 }}>Qual dessas opções de parcelas você prefere?</Typography>
@@ -74,15 +91,15 @@ export function ModalOptionsValues({
                 }}
               >
                 <Typography>Parcelas</Typography>
-                <Typography>Total</Typography>
+                <Typography mr={'58px'}>Total</Typography>
               </Box>
 
               <RadioGroup
-                name="selectedParcel"
+                name='selectedParcel'
                 value={formik.values.selectedParcel}
                 onChange={formik.handleChange}
               >
-                {installments.map((opt) => (
+                {installments.map(opt => (
                   <Box
                     key={opt.parcels}
                     sx={{
@@ -111,7 +128,7 @@ export function ModalOptionsValues({
             <PurchaseOptionsFooter />
 
             <Button
-              variant="contained"
+              variant='contained'
               onClick={handleAdvance}
               sx={{
                 backgroundColor: '#FF3D5B',
@@ -137,7 +154,7 @@ export function ModalOptionsValues({
             <PurchaseOptionsFooter />
 
             <Button
-              variant="contained"
+              variant='contained'
               onClick={handleAdvance}
               sx={{
                 backgroundColor: '#FF3D5B',

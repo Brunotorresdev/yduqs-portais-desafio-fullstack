@@ -43,7 +43,7 @@ export function Banner({ title, subTitle }: BannerProps): JSX.Element {
           component='h6'
           gutterBottom
           sx={{
-            fontFamily: '"Inter", "Roboto", sans-serif',
+            fontFamily: subTitle ? '"Inter", "Roboto", sans-serif' : '"Montserrat", "Roboto", sans-serif',
             fontWeight: 400,
             fontSize: '16px',
             lineHeight: '150%',

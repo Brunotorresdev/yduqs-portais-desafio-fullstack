@@ -33,7 +33,6 @@ export class PurchaseService {
       installment_value,
     } = purchaseData;
 
-    // Buscar e validar opção de curso
     const courseOption = await this.prisma.courseOption.findUnique({
       where: { id: course_option_id },
     });
@@ -42,10 +41,8 @@ export class PurchaseService {
       throw new NotFoundException('Opção de curso não encontrada');
     }
 
-    // Validar dados do cliente
     this.validationService.validateClientData(clientInfo);
 
-    // Validar dados da compra
     this.validationService.validatePurchaseData({
       total_installments,
       total_value,
@@ -53,7 +50,6 @@ export class PurchaseService {
       accepted_terms,
     });
 
-    // Validar valores de parcelamento se fornecidos
     if (total_installments && installment_value && total_value) {
       const isValid = this.installmentService.validateInstallmentValues(
         total_installments,
@@ -66,14 +62,12 @@ export class PurchaseService {
       }
     }
 
-    // Criar ou buscar cliente
     const client = await this.clientService.findOrCreate({
       ...clientInfo,
       accepted_terms,
       accepted_whatsapp_updates,
     });
 
-    // Criar compra
     const newPurchase = await this.prisma.purchase.create({
       data: {
         client_id: client.id,

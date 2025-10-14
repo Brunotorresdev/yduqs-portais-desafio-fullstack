@@ -46,8 +46,21 @@ export default function CardOptions({ item }: CardOptionsProps) {
               overflow: 'hidden',
             }}
           >
-            <Box sx={{ backgroundColor: '#001F66', color: '#FFF', p: '8px 16px' }}>
-              <Typography fontWeight='bold'>{tournName}</Typography>
+            <Box
+              sx={{
+                backgroundColor: '#001F66',
+                color: '#FFF',
+                p: '8px 16px',
+
+             
+              }}
+            >
+              <Typography sx={{
+                   fontFamily: '"Inter", "Roboto", sans-serif',
+                fontWeight: 500,
+                fontSize: 16,
+                lineHeight: '135%',
+              }}>{tournName}</Typography>
             </Box>
 
             <Box sx={{ backgroundColor: '#144BC8', color: '#FFF', p: '24px 16px 16px 16px' }}>

@@ -23,7 +23,7 @@ export class CourseOptionService {
     });
 
     const data = courseOptions.map((option) => {
-      const baseValue = option.value ? parseFloat(option.value.toString()) : 0;
+      const baseValue = option.cash_value ? parseFloat(option.cash_value.toString()) : 0;
       const installments = this.installmentService.calculateInstallments(baseValue);
       
       return {
