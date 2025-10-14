@@ -3,19 +3,11 @@
 import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
-import {
-  Box,
-  Button,
-  Typography,
-  Checkbox,
-  FormControlLabel,
-  useTheme,
-  useMediaQuery,
-  Backdrop,
-  CircularProgress,
-  Snackbar,
-  Alert,
-} from '@mui/material';
+import { Box, useTheme, useMediaQuery } from '@mui/material';
+import { FormFields } from './components/FormFields';
+import { FormActions } from './components/FormActions';
+import { LoadingAndToast } from './components/LoadingAndToast';
+import { TermsSection } from './components/TermsSection';
 import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -240,126 +232,22 @@ export default function RegistrationForm() {
           >
             {({ isSubmitting, isValid, dirty }) => (
               <Form>
-                <FormInput
-                  name='fullName'
-                  placeholder='Nome completo'
-                  helperText='Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação.'
+                <FormFields
+                  formatters={{
+                    formatCPF,
+                    formatDate,
+                    formatPhone,
+                  }}
                 />
 
-                <FormInput name='cpf' placeholder='CPF' maxLength={14} formatValue={formatCPF} />
-                <FormInput
-                  name='birthDate'
-                  placeholder='Data de nascimento'
-                  maxLength={10}
-                  formatValue={formatDate}
-                />
-                <FormInput name='email' placeholder='E-mail' type='email' />
-                <FormInput
-                  name='phone'
-                  placeholder='Celular para contato'
-                  maxLength={15}
-                  formatValue={formatPhone}
-                />
-                <FormInput
-                  name='graduationYear'
-                  placeholder='Ano de conclusão do ensino ...'
-                  maxLength={4}
-                />
+                <TermsSection />
 
-                <Box mb={3}>
-                  <FormControlLabel
-                    sx={{
-                      alignItems: 'flex-start',
-                      '.MuiFormControlLabel-label': { marginTop: '-2px' },
-                      '.MuiButtonBase-root': { p: '0 9px 0 8px' },
-                    }}
-                    control={
-                      <Field
-                        as={Checkbox}
-                        name='acceptTerms'
-                        color='primary'
-                        sx={{
-                          color: '#000',
-                          '&.Mui-checked': { color: '#000' },
-                        }}
-                      />
-                    }
-                    label={
-                      <Typography
-                        variant='body2'
-                        sx={{
-                          fontFamily: '"Inter", "Roboto", sans-serif',
-                          fontSize: '16px',
-                          lineHeight: '133%',
-                          fontWeight: 500,
-                        }}
-                      >
-                        Li e concordo com os termos do edital, bem como com o tratamento dos meus
-                        dados para fins de prospecção dos serviços educacionais prestados pela
-                        Estácio e demais instituições de ensino do mesmo Grupo Econômico, de acordo
-                        com a nossa política de privacidade.
-                      </Typography>
-                    }
-                  />
-                  <div style={{ color: 'red', fontSize: '0.75rem', marginTop: '3px' }}>
-                    <ErrorMessage name='acceptTerms' component='div' />
-                  </div>
-                </Box>
-
-                <Box mb={4}>
-                  <FormControlLabel
-                    sx={{
-                      alignItems: 'flex-start',
-                      '.MuiFormControlLabel-label': { marginTop: '-2px' },
-                      '.MuiButtonBase-root': { p: '0 9px 0 8px' },
-                    }}
-                    control={
-                      <Field
-                        as={Checkbox}
-                        name='acceptWhatsApp'
-                        color='primary'
-                        sx={{
-                          color: '#000',
-                          '&.Mui-checked': { color: '#000' },
-                        }}
-                      />
-                    }
-                    label={
-                      <Typography
-                        variant='body2'
-                        sx={{
-                          fontFamily: '"Inter", "Roboto", sans-serif',
-                          fontSize: '16px',
-                          lineHeight: '133%',
-                          fontWeight: 500,
-                        }}
-                      >
-                        Aceito receber atualizações sobre minha inscrição pelo WhatsApp.
-                      </Typography>
-                    }
-                  />
-                </Box>
-
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                  <Button
-                    type='submit'
-                    variant='contained'
-                    color='primary'
-                    disabled={isSubmitting || createPurchase.isPending || !isValid || !dirty}
-                    sx={{
-                      padding: '16px 24px',
-                      fontSize: '16px',
-                      fontWeight: 500,
-                      backgroundColor: '#002F9D',
-                      '&:hover': { backgroundColor: '#002080' },
-                      width: '110px',
-                      height: '48px',
-                      fontFamily: '"Inter", "Roboto", sans-serif',
-                    }}
-                  >
-                    {createPurchase.isPending ? 'Enviando...' : 'Avançar'}
-                  </Button>
-                </Box>
+                <FormActions
+                  isSubmitting={isSubmitting}
+                  isPending={createPurchase.isPending}
+                  isValid={isValid}
+                  isDirty={dirty}
+                />
               </Form>
             )}
           </Formik>
@@ -370,25 +258,7 @@ export default function RegistrationForm() {
         <Footer />
       </div>
 
-      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={loading}>
-        <CircularProgress color='inherit' />
-      </Backdrop>
-
-      <Snackbar
-        open={toast.open}
-        autoHideDuration={6000}
-        onClose={handleCloseToast}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert
-          onClose={handleCloseToast}
-          severity={toast.severity}
-          variant='filled'
-          sx={{ width: '100%' }}
-        >
-          {toast.message}
-        </Alert>
-      </Snackbar>
+      <LoadingAndToast loading={loading} toast={toast} onCloseToast={handleCloseToast} />
     </>
   );
 }
