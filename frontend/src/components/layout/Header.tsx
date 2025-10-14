@@ -8,7 +8,7 @@ export function Header(): JSX.Element {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
   return (
-    <header style={{ padding: isMobile ? '16px 0' : '24px 0' }}>
+    <header style={{ padding: isMobile ? '16px 0' : '24px 10px' }}>
       <ContainerWrapper>
         <Image
           src='/images/logo_estacio.png'

@@ -31,7 +31,7 @@ export function ModalOptionsValues({
   const router = useRouter();
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleAdvance = () => {
     const selectedOption = installments.find(
@@ -52,15 +52,9 @@ export function ModalOptionsValues({
     formik.setFieldValue('open', false);
   };
 
-
   return (
-    <Dialog
-      open={formik.values.open}
-      onClose={() => handleClose()}
-      maxWidth='sm'
-      fullWidth
-    >
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+    <Dialog open={formik.values.open} onClose={() => handleClose()} maxWidth='sm' fullWidth>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <DialogTitle
           sx={{
             fontFamily: '"Montserrat", "Roboto", sans-serif',
@@ -73,13 +67,31 @@ export function ModalOptionsValues({
         >
           Mais detalhes
         </DialogTitle>
-        <Box sx={{padding: '0 16px 0 25px'}}>
-
-        <Close onClick={handleClose} sx={{ cursor: 'pointer' }}  />
+        <Box sx={{ padding: '0 16px 0 25px' }}>
+          <Close onClick={handleClose} sx={{ cursor: 'pointer' }} />
         </Box>
       </Box>
       <Divider color='#E0E0E0' />
-      <DialogContent sx={{paddingTop: isMobile ? '16px' : '24px 0 16px 0'}}>
+      <DialogContent
+        sx={{
+          paddingTop: isMobile ? '16px' : '24px 0 16px 0',
+
+          scrollBehavior: 'smooth',
+          '&::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#c1c1c1',
+            borderRadius: '8px',
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#a0a0a0',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: '#f0f0f0',
+          },
+        }}
+      >
         {hasValue ? (
           <>
             <Typography sx={{ mb: 2 }}>Qual dessas opções de parcelas você prefere?</Typography>
@@ -101,8 +113,12 @@ export function ModalOptionsValues({
                   color: '#FFF',
                 }}
               >
-                <Typography fontSize={'16px'} fontWeight={400} >Parcelas</Typography>
-                <Typography fontSize={'16px'} fontWeight={400} mr={isMobile ? '16px' : '58px'}>Total</Typography>
+                <Typography fontSize={'16px'} fontWeight={400}>
+                  Parcelas
+                </Typography>
+                <Typography fontSize={'16px'} fontWeight={400} mr={isMobile ? '16px' : '58px'}>
+                  Total
+                </Typography>
               </Box>
 
               <RadioGroup
@@ -124,7 +140,16 @@ export function ModalOptionsValues({
                   >
                     <FormControlLabel
                       value={opt.parcels.toString()}
-                      control={<Radio />}
+                      control={
+                        <Radio
+                          sx={{
+                            color: '#000',
+                            '&.Mui-checked': {
+                              color: '#000',
+                            },
+                          }}
+                        />
+                      }
                       label={`${opt.parcels}x R$ ${opt.installment.toLocaleString('pt-BR', {
                         minimumFractionDigits: 2,
                       })}`}
@@ -147,11 +172,12 @@ export function ModalOptionsValues({
                 borderRadius: '12px',
                 textTransform: 'none',
                 width: '100%',
-                fontWeight: 'bold',
+                fontWeight: 500,
                 fontSize: 16,
                 py: 1.2,
                 '&:hover': { backgroundColor: '#E73350' },
                 mt: 2,
+                fontFamily: '"Inter", "Roboto", sans-serif',
               }}
             >
               Avançar

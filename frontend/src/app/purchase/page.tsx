@@ -3,7 +3,15 @@
 import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
-import { Box, Button, Typography, Checkbox, FormControlLabel, useTheme, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -170,17 +178,24 @@ export default function RegistrationForm() {
     return `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(4, 8)}`;
   };
 
-    const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <>
       <Header />
       <Banner title='Queremos saber um pouco mais sobre você' />
       <ContainerWrapper>
-        <Box sx={{ my: 4, p: 4, marginTop: 0, padding: isMobile ? '0 16px' : 0 }}>
+        <Box
+          sx={{
+            my: 4,
+            marginTop: 0,
+            padding: isMobile ? '0 16px' : 0,
+            maxWidth: '660px',
+            p: '0 10px',
+          }}
+        >
           <Formik
-          
             initialValues={{
               fullName: '',
               cpf: '',
@@ -194,13 +209,8 @@ export default function RegistrationForm() {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({
-              isSubmitting,
-              isValid,
-              dirty,
-            }) => (
-              <Form
-              >
+            {({ isSubmitting, isValid, dirty }) => (
+              <Form>
                 <FormInput
                   name='fullName'
                   placeholder='Nome completo'
@@ -231,12 +241,32 @@ export default function RegistrationForm() {
                   maxLength={4}
                 />
 
-                <Box mb={3} >
+                <Box mb={3}>
                   <FormControlLabel
-                    sx={{ '.MuiFormHelperText-root': { color: 'red' }}}
-                    control={<Field as={Checkbox} name='acceptTerms' color='primary' />}
+                    sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
+                    control={
+                      <Field
+                        as={Checkbox}
+                        name='acceptTerms'
+                        color='primary'
+                        sx={{
+                          color: '#000',
+                          '&.Mui-checked': {
+                            color: '#000',
+                          },
+                        }}
+                      />
+                    }
                     label={
-                      <Typography variant='body2' sx={{fontFamily: '"Inter", "Roboto", sans-serif', fontSize: '16px', lineHeight: '133%', fontWeight: 500}}>
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          fontFamily: '"Inter", "Roboto", sans-serif',
+                          fontSize: '16px',
+                          lineHeight: '133%',
+                          fontWeight: 500,
+                        }}
+                      >
                         Li e concordo com os termos do edital, bem como com o tratamento dos meus
                         dados para fins de prospecção dos serviços educacionais prestados pela
                         Estácio e demais instituições de ensino do mesmo Grupo Econômico, de acordo
@@ -251,9 +281,29 @@ export default function RegistrationForm() {
 
                 <Box mb={4}>
                   <FormControlLabel
-                    control={<Field as={Checkbox} name='acceptWhatsApp' color='primary' />}
+                    control={
+                      <Field
+                        as={Checkbox}
+                        name='acceptWhatsApp'
+                        color='primary'
+                        sx={{
+                          color: '#000',
+                          '&.Mui-checked': {
+                            color: '#000',
+                          },
+                        }}
+                      />
+                    }
                     label={
-                      <Typography variant='body2' sx={{fontFamily: '"Inter", "Roboto", sans-serif', fontSize: '16px', lineHeight: '133%', fontWeight: 500}}>
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          fontFamily: '"Inter", "Roboto", sans-serif',
+                          fontSize: '16px',
+                          lineHeight: '133%',
+                          fontWeight: 500,
+                        }}
+                      >
                         Aceito receber atualizações sobre minha inscrição pelo WhatsApp.
                       </Typography>
                     }
@@ -269,12 +319,14 @@ export default function RegistrationForm() {
                     color='primary'
                     disabled={isSubmitting || createPurchase.isPending || !isValid || !dirty}
                     sx={{
-                      px: 6,
-                      py: 1.5,
-                      fontSize: '1.1rem',
-                      fontWeight: 'bold',
+                      padding: '16px 24px',
+                      fontSize: '16px',
+                      fontWeight: '500',
                       backgroundColor: '#002F9D',
                       '&:hover': { backgroundColor: '#002080' },
+                      width: '110px',
+                      height: '48px',
+                      fontFamily: '"Inter", "Roboto", sans-serif',
                     }}
                   >
                     {createPurchase.isPending ? 'Enviando...' : 'Avançar'}

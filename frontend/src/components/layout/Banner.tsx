@@ -15,7 +15,7 @@ export function Banner({ title, subTitle }: BannerProps): JSX.Element {
   return (
     <div
       style={{
-        padding: isMobile ? '24px 16px' : '40px 0',
+        padding: isMobile ? '24px 16px' : '40px 10px',
         backgroundColor: '#144BC8',
         marginBottom: isMobile ? '24px' : '32px',
       }}

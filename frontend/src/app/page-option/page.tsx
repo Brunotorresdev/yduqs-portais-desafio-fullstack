@@ -14,7 +14,7 @@ export default function PageOption() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
 
   return (
-    <Box>
+    <Box >
       <Header />
       <Banner
         title='Vamos começar, escolha as opções do seu curso'
@@ -26,7 +26,7 @@ export default function PageOption() {
             {isLoading ? (
               <Skeleton variant='text' width={220} height={32} sx={{ mb: 2 }} />
             ) : (
-              <Typography sx={{ marginBottom: '16px' }} variant='h6' component='h2'>
+              <Typography sx={{ marginBottom: '16px',padding: '0 10px' }} variant='h6' component='h2'>
                 {data?.data?.length || '0'} opções encontradas
               </Typography>
             )}
@@ -40,6 +40,7 @@ export default function PageOption() {
             gap: '10px',
             flexWrap: 'wrap',
             justifyContent: isMobile ? 'center' : 'flex-start',
+            padding: '0 10px'
           }}
         >
           {isLoading ? (

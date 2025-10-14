@@ -18,7 +18,7 @@ export function Footer({ isDefault }: FooterProps): JSX.Element {
         margin: 'auto',
         display: 'flex',
         justifyContent: 'space-between',
-        padding: isMobile ? '16px 16px 24px 16px' : '24px 0',
+        padding: isMobile ? '16px 16px 24px 16px' : '24px 10px',
         flexDirection: isMobile ? 'column' : 'row',
       }}
     >
