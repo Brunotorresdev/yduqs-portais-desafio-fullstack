@@ -11,6 +11,10 @@ import {
   FormControlLabel,
   useTheme,
   useMediaQuery,
+  Backdrop,
+  CircularProgress,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -18,6 +22,7 @@ import * as Yup from 'yup';
 import { useSearchParams } from 'next/navigation';
 import { useCreatePurchase } from './hooks/useCreatePurchase';
 import { FormInput } from '@/components/forms/FormInput';
+import { useState } from 'react';
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required('Nome completo é obrigatório'),
@@ -31,38 +36,29 @@ const validationSchema = Yup.object({
       if (!value) return false;
 
       const [day, month, year] = value.split('/').map(Number);
-
       const date = new Date(year, month - 1, day);
-      if (date.getDate() !== day || date.getMonth() !== month - 1 || date.getFullYear() !== year) {
+      if (date.getDate() !== day || date.getMonth() !== month - 1 || date.getFullYear() !== year)
         return false;
-      }
 
       const today = new Date();
-      if (date > today) {
-        return false;
-      }
+      if (date > today) return false;
 
       const minDate = new Date();
       minDate.setFullYear(today.getFullYear() - 120);
-      if (date < minDate) {
-        return false;
-      }
+      if (date < minDate) return false;
 
       return true;
     })
-    .test('age-validation', 'Data de nascimento inválida', function (value) {
+    .test('age-validation', 'Você deve ter pelo menos 16 anos', function (value) {
       if (!value) return false;
-
       const [day, month, year] = value.split('/').map(Number);
       const birthDate = new Date(year, month - 1, day);
       const today = new Date();
-      const age = today.getFullYear() - birthDate.getFullYear();
+      let age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
-
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        return age - 1 >= 16;
+        age--;
       }
-
       return age >= 16;
     }),
   email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
@@ -74,19 +70,9 @@ const validationSchema = Yup.object({
     .matches(/^\d{4}$/, 'Ano deve ter 4 dígitos')
     .test('valid-year', 'Ano inválido', function (value) {
       if (!value) return false;
-
       const year = parseInt(value);
       const currentYear = new Date().getFullYear();
-
-      if (year > currentYear) {
-        return false;
-      }
-
-      if (year < 1950) {
-        return false;
-      }
-
-      return true;
+      return year >= 1950 && year <= currentYear;
     }),
   acceptTerms: Yup.boolean().oneOf([true], 'Você deve aceitar os termos'),
   acceptWhatsApp: Yup.boolean(),
@@ -116,10 +102,22 @@ export default function RegistrationForm() {
   const parcelData = selectedParcel ? JSON.parse(selectedParcel) : null;
 
   const createPurchase = useCreatePurchase();
+  const [loading, setLoading] = useState(false);
+
+  // Toast states
+  const [toast, setToast] = useState<{
+    open: boolean;
+    message: string;
+    severity: 'success' | 'error';
+  }>({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
+  const handleCloseToast = () => setToast({ ...toast, open: false });
 
   const handleSubmit = async (values: any) => {
-    console.log('🚀 ~ handleSubmit ~ values:', values);
-
     const convertBrazilianDateToISO = (dateString: string) => {
       const [day, month, year] = dateString.split('/');
       return new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toISOString();
@@ -142,14 +140,26 @@ export default function RegistrationForm() {
       total_value: parcelData?.total,
     };
 
-    console.log('Payload enviado ao backend:', payload);
-
     try {
+      setLoading(true);
       await createPurchase.mutateAsync(payload);
-      alert('Compra criada com sucesso!');
-    } catch (error) {
+
+      setToast({
+        open: true,
+        message: 'Inscrição enviada com sucesso!',
+        severity: 'success',
+      });
+    } catch (error: any) {
       console.error('Erro ao criar compra:', error);
-      alert('Ocorreu um erro ao enviar os dados.');
+      setToast({
+        open: true,
+        message:
+          error?.response?.data?.message ||
+          'Ocorreu um erro inesperado ao enviar os dados. Tente novamente.',
+        severity: 'error',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -214,44 +224,36 @@ export default function RegistrationForm() {
                 <FormInput
                   name='fullName'
                   placeholder='Nome completo'
-                  helperText='Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação. Confira o exemplo.'
+                  helperText='Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação.'
                 />
 
                 <FormInput name='cpf' placeholder='CPF' maxLength={14} formatValue={formatCPF} />
-
                 <FormInput
                   name='birthDate'
                   placeholder='Data de nascimento'
                   maxLength={10}
                   formatValue={formatDate}
                 />
-
                 <FormInput name='email' placeholder='E-mail' type='email' />
-
                 <FormInput
                   name='phone'
                   placeholder='Celular para contato'
                   maxLength={15}
                   formatValue={formatPhone}
                 />
-
                 <FormInput
                   name='graduationYear'
                   placeholder='Ano de conclusão do ensino ...'
                   maxLength={4}
                 />
 
+                {/* Checkbox Termos */}
                 <Box mb={3}>
                   <FormControlLabel
                     sx={{
                       alignItems: 'flex-start',
-                      '.MuiFormControlLabel-label': {
-                        marginTop: '-2px',
-                      },
-                      '.MuiFormHelperText-root': { color: 'red' },
-                      '.MuiButtonBase-root': {
-                        p: '0 9px 0 8px',
-                      },
+                      '.MuiFormControlLabel-label': { marginTop: '-2px' },
+                      '.MuiButtonBase-root': { p: '0 9px 0 8px' },
                     }}
                     control={
                       <Field
@@ -260,9 +262,7 @@ export default function RegistrationForm() {
                         color='primary'
                         sx={{
                           color: '#000',
-                          '&.Mui-checked': {
-                            color: '#000',
-                          },
+                          '&.Mui-checked': { color: '#000' },
                         }}
                       />
                     }
@@ -288,16 +288,13 @@ export default function RegistrationForm() {
                   </div>
                 </Box>
 
+                {/* Checkbox WhatsApp */}
                 <Box mb={4}>
                   <FormControlLabel
                     sx={{
                       alignItems: 'flex-start',
-                      '.MuiFormControlLabel-label': {
-                        marginTop: '-2px',
-                      },
-                      '.MuiButtonBase-root': {
-                        p: '0 9px 0 8px',
-                      },
+                      '.MuiFormControlLabel-label': { marginTop: '-2px' },
+                      '.MuiButtonBase-root': { p: '0 9px 0 8px' },
                     }}
                     control={
                       <Field
@@ -306,9 +303,7 @@ export default function RegistrationForm() {
                         color='primary'
                         sx={{
                           color: '#000',
-                          '&.Mui-checked': {
-                            color: '#000',
-                          },
+                          '&.Mui-checked': { color: '#000' },
                         }}
                       />
                     }
@@ -337,7 +332,7 @@ export default function RegistrationForm() {
                     sx={{
                       padding: '16px 24px',
                       fontSize: '16px',
-                      fontWeight: '500',
+                      fontWeight: 500,
                       backgroundColor: '#002F9D',
                       '&:hover': { backgroundColor: '#002080' },
                       width: '110px',
@@ -353,9 +348,32 @@ export default function RegistrationForm() {
           </Formik>
         </Box>
       </ContainerWrapper>
+
       <div style={{ backgroundColor: '#002F9D', marginTop: '56px' }}>
         <Footer />
       </div>
+
+      {/* Loading Backdrop */}
+      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+        <CircularProgress color='inherit' />
+      </Backdrop>
+
+      {/* ✅ Snackbar de sucesso ou erro */}
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={6000}
+        onClose={handleCloseToast}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert
+          onClose={handleCloseToast}
+          severity={toast.severity}
+          variant='filled'
+          sx={{ width: '100%' }}
+        >
+          {toast.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
