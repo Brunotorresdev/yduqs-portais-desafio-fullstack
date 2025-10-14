@@ -6,7 +6,7 @@ import {
   ApiCreatedResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ApiResponseDto } from 'src/common/dto/api-response.dto';
+import { ApiResponseDto } from '../common/dto/api-response.dto';
 import { Purchase } from '@prisma/client';
 
 @ApiTags('purchase')
