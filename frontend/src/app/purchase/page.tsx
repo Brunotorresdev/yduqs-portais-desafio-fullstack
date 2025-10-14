@@ -243,7 +243,16 @@ export default function RegistrationForm() {
 
                 <Box mb={3}>
                   <FormControlLabel
-                    sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
+                    sx={{
+                      alignItems: 'flex-start',
+                      '.MuiFormControlLabel-label': {
+                        marginTop: '-2px',
+                      },
+                      '.MuiFormHelperText-root': { color: 'red' },
+                      '.MuiButtonBase-root': {
+                        p: '0 9px 0 8px',
+                      },
+                    }}
                     control={
                       <Field
                         as={Checkbox}
@@ -281,6 +290,15 @@ export default function RegistrationForm() {
 
                 <Box mb={4}>
                   <FormControlLabel
+                    sx={{
+                      alignItems: 'flex-start',
+                      '.MuiFormControlLabel-label': {
+                        marginTop: '-2px',
+                      },
+                      '.MuiButtonBase-root': {
+                        p: '0 9px 0 8px',
+                      },
+                    }}
                     control={
                       <Field
                         as={Checkbox}
@@ -309,8 +327,6 @@ export default function RegistrationForm() {
                     }
                   />
                 </Box>
-
-                <Box sx={{ borderTop: 1, borderColor: 'divider', my: 3 }} />
 
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <Button
