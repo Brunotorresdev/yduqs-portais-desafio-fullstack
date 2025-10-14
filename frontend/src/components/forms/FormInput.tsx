@@ -40,7 +40,8 @@ export function FormInput({
       <TextField
         sx={{ '.MuiFormHelperText-root': { color: 'red' } }}
         fullWidth
-        placeholder={placeholder}
+        label={placeholder}
+        // placeholder={placeholder}
         name={name}
         type={type}
         value={values[name] || ''}

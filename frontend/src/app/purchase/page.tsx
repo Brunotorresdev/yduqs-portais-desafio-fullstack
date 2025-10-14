@@ -104,7 +104,6 @@ export default function RegistrationForm() {
   const createPurchase = useCreatePurchase();
   const [loading, setLoading] = useState(false);
 
-  // Toast states
   const [toast, setToast] = useState<{
     open: boolean;
     message: string;
@@ -247,7 +246,6 @@ export default function RegistrationForm() {
                   maxLength={4}
                 />
 
-                {/* Checkbox Termos */}
                 <Box mb={3}>
                   <FormControlLabel
                     sx={{
@@ -288,7 +286,6 @@ export default function RegistrationForm() {
                   </div>
                 </Box>
 
-                {/* Checkbox WhatsApp */}
                 <Box mb={4}>
                   <FormControlLabel
                     sx={{
@@ -353,12 +350,10 @@ export default function RegistrationForm() {
         <Footer />
       </div>
 
-      {/* Loading Backdrop */}
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
         <CircularProgress color='inherit' />
       </Backdrop>
 
-      {/* ✅ Snackbar de sucesso ou erro */}
       <Snackbar
         open={toast.open}
         autoHideDuration={6000}
