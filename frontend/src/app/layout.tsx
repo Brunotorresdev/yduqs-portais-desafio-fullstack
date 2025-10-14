@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import { CssBaseline } from '@mui/material';
-import { Inter } from 'next/font/google';
 import { Providers } from '@/components/providers/Providers';
-
-const inter = Inter({ subsets: ['latin'] });
+import '../styles/globals.css'; 
 
 export const metadata: Metadata = {
   title: 'Teste YDUQS - Next.js',
