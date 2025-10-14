@@ -25,13 +25,13 @@ import { FormInput } from '@/components/forms/FormInput';
 import { useState } from 'react';
 
 const validationSchema = Yup.object({
-  fullName: Yup.string().required('Nome completo é obrigatório'),
+  fullName: Yup.string().required('Por favor, informe seu nome completo'),
   cpf: Yup.string()
-    .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF deve estar no formato 000.000.000-00')
-    .required('CPF é obrigatório'),
+    .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'O CPF deve estar no formato 000.000.000-00')
+    .required('Por favor, informe seu CPF'),
   birthDate: Yup.string()
-    .required('Data de nascimento é obrigatória')
-    .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Data deve estar no formato dd/mm/aaaa')
+    .required('Por favor, informe sua data de nascimento')
+    .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'A data deve estar no formato dd/mm/aaaa')
     .test('valid-date', 'Data inválida', function (value) {
       if (!value) return false;
 
@@ -61,20 +61,22 @@ const validationSchema = Yup.object({
       }
       return age >= 16;
     }),
-  email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
+  email: Yup.string()
+    .email('Por favor, informe um e-mail válido')
+    .required('Por favor, informe seu e-mail'),
   phone: Yup.string()
-    .matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, 'Celular deve estar no formato (00) 00000-0000')
-    .required('Celular é obrigatório'),
+    .matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, 'O celular deve estar no formato (00) 00000-0000')
+    .required('Por favor, informe seu celular'),
   graduationYear: Yup.string()
-    .required('Ano de conclusão é obrigatório')
-    .matches(/^\d{4}$/, 'Ano deve ter 4 dígitos')
+    .required('Por favor, informe o ano de conclusão do ensino médio')
+    .matches(/^\d{4}$/, 'O ano deve conter 4 dígitos')
     .test('valid-year', 'Ano inválido', function (value) {
       if (!value) return false;
       const year = parseInt(value);
       const currentYear = new Date().getFullYear();
       return year >= 1950 && year <= currentYear;
     }),
-  acceptTerms: Yup.boolean().oneOf([true], 'Você deve aceitar os termos'),
+  acceptTerms: Yup.boolean().oneOf([true], 'É necessário aceitar os termos para prosseguir'),
   acceptWhatsApp: Yup.boolean(),
 });
 
@@ -150,11 +152,29 @@ export default function RegistrationForm() {
       });
     } catch (error: any) {
       console.error('Erro ao criar compra:', error);
+      let errorMessage = 'Ocorreu um erro inesperado ao enviar os dados. Tente novamente.';
+
+      if (error?.response?.data?.message) {
+        if (Array.isArray(error.response.data.message)) {
+          errorMessage = error.response.data.message.join('\n');
+        } else {
+          errorMessage = error.response.data.message;
+        }
+      } else if (error?.response?.status === 400) {
+        if (!cardOptionId) {
+          errorMessage = 'Por favor, selecione um curso para prosseguir com a inscrição.';
+        } else {
+          errorMessage = 'Alguns campos estão inválidos. Por favor, verifique os dados informados.';
+        }
+      } else if (error?.response?.status === 404) {
+        errorMessage = 'Opção de curso não encontrada. Por favor, selecione outra opção.';
+      } else if (error?.response?.status === 500) {
+        errorMessage = 'Erro interno do servidor. Por favor, tente novamente mais tarde.';
+      }
+
       setToast({
         open: true,
-        message:
-          error?.response?.data?.message ||
-          'Ocorreu um erro inesperado ao enviar os dados. Tente novamente.',
+        message: errorMessage,
         severity: 'error',
       });
     } finally {
@@ -350,7 +370,7 @@ export default function RegistrationForm() {
         <Footer />
       </div>
 
-      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={loading}>
         <CircularProgress color='inherit' />
       </Backdrop>
 

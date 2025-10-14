@@ -16,8 +16,8 @@ export class CreatePurchaseDto {
     description: 'ID of the chosen course option',
     example: 'a1b2c3d4-e5f6-7890-1234-567890abcdef',
   })
-  @IsUUID()
-  @IsNotEmpty()
+  @IsUUID('all', { message: 'O ID do curso selecionado não é válido' })
+  @IsNotEmpty({ message: 'Por favor, selecione um curso para prosseguir' })
   course_option_id: string;
 
   @ApiProperty({ 

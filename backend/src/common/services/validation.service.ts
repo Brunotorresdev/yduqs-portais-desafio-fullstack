@@ -8,11 +8,11 @@ export class ValidationService {
     const today = new Date();
     
     if (isNaN(birth.getTime())) {
-      throw new BadRequestException('Data de nascimento inválida');
+      throw new BadRequestException('A data de nascimento informada não é válida');
     }
     
     if (birth > today) {
-      throw new BadRequestException('Data de nascimento não pode ser futura');
+      throw new BadRequestException('A data de nascimento não pode ser futura');
     }
     
     const age = today.getFullYear() - birth.getFullYear();
@@ -24,11 +24,11 @@ export class ValidationService {
     }
     
     if (actualAge < minAge) {
-      throw new BadRequestException(`Idade mínima é ${minAge} anos`);
+      throw new BadRequestException(`Você precisa ter pelo menos ${minAge} anos para se cadastrar`);
     }
     
     if (actualAge > maxAge) {
-      throw new BadRequestException(`Idade máxima é ${maxAge} anos`);
+      throw new BadRequestException(`A idade máxima permitida é de ${maxAge} anos`);
     }
   }
 
@@ -36,11 +36,11 @@ export class ValidationService {
     const currentYear = new Date().getFullYear();
     
     if (year > currentYear) {
-      throw new BadRequestException('Ano de conclusão não pode ser futuro');
+      throw new BadRequestException('O ano de conclusão do ensino médio não pode ser futuro');
     }
     
     if (year < 1950) {
-      throw new BadRequestException('Ano de conclusão não pode ser anterior a 1950');
+      throw new BadRequestException('O ano de conclusão do ensino médio não pode ser anterior a 1950');
     }
   }
 
@@ -48,11 +48,11 @@ export class ValidationService {
     const cleanCPF = cpf.replace(/\D/g, '');
     
     if (cleanCPF.length !== 11) {
-      throw new BadRequestException('CPF deve ter exatamente 11 dígitos numéricos');
+      throw new BadRequestException('O CPF deve conter exatamente 11 dígitos numéricos');
     }
     
     if (/^(\d)\1{10}$/.test(cleanCPF)) {
-      throw new BadRequestException('CPF inválido');
+      throw new BadRequestException('O CPF informado não é válido');
     }
   }
 
@@ -66,11 +66,11 @@ export class ValidationService {
 
   validateName(name: string): void {
     if (!name || name.trim().length < 2) {
-      throw new BadRequestException('Nome deve ter pelo menos 2 caracteres');
+      throw new BadRequestException('O nome deve conter pelo menos 2 caracteres');
     }
     
     if (name.length > 100) {
-      throw new BadRequestException('Nome não pode exceder 100 caracteres');
+      throw new BadRequestException('O nome não pode exceder 100 caracteres');
     }
   }
 
