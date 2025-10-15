@@ -1,9 +1,11 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import {
   Box,
   Typography,
   Button,
+  CircularProgress,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -29,11 +31,12 @@ export function ModalOptionsValues({
   formik,
 }: ModalOptionsValuesProps) {
   const router = useRouter();
-
+  const [isNavigating, setIsNavigating] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleAdvance = () => {
+    setIsNavigating(true);
     const selectedOption = installments.find(
       opt => opt.parcels === Number(formik.values.selectedParcel)
     );
@@ -166,6 +169,7 @@ export function ModalOptionsValues({
             <Button
               variant='contained'
               onClick={handleAdvance}
+              disabled={isNavigating}
               sx={{
                 backgroundColor: '#FF3D5B',
                 color: '#FFF',
@@ -178,9 +182,25 @@ export function ModalOptionsValues({
                 '&:hover': { backgroundColor: '#E73350' },
                 mt: 2,
                 fontFamily: '"Inter", "Roboto", sans-serif',
+                position: 'relative',
               }}
             >
-              Avançar
+              {isNavigating ? (
+                <>
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: '#FFF',
+                      position: 'absolute',
+                      left: '50%',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                  <span style={{ visibility: 'hidden' }}>Avançar</span>
+                </>
+              ) : (
+                'Avançar'
+              )}
             </Button>
           </>
         ) : (
@@ -193,6 +213,7 @@ export function ModalOptionsValues({
             <Button
               variant='contained'
               onClick={handleAdvance}
+              disabled={isNavigating}
               sx={{
                 backgroundColor: '#FF3D5B',
                 color: '#FFF',
@@ -204,9 +225,25 @@ export function ModalOptionsValues({
                 py: 1.2,
                 '&:hover': { backgroundColor: '#E73350' },
                 mt: 2,
+                position: 'relative',
               }}
             >
-              Avançar
+              {isNavigating ? (
+                <>
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: '#FFF',
+                      position: 'absolute',
+                      left: '50%',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                  <span style={{ visibility: 'hidden' }}>Avançar</span>
+                </>
+              ) : (
+                'Avançar'
+              )}
             </Button>
           </>
         )}

@@ -3,6 +3,7 @@
 import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
+import { NoCardOptionSelected } from '@/components/NoCardOptionSelected';
 import { Box, useTheme, useMediaQuery } from '@mui/material';
 import { FormFields } from './components/FormFields';
 import { FormActions } from './components/FormActions';
@@ -95,6 +96,20 @@ export default function RegistrationForm() {
   const cardOptionId = searchParams.get('cardOptionId');
   const selectedParcel = searchParams.get('selectedParcel');
   const parcelData = selectedParcel ? JSON.parse(selectedParcel) : null;
+
+  if (!cardOptionId) {
+    return (
+      <>
+        <Header />
+        <ContainerWrapper>
+          <NoCardOptionSelected />
+        </ContainerWrapper>
+        <div style={{ backgroundColor: '#002F9D', marginTop: '56px' }}>
+          <Footer />
+        </div>
+      </>
+    );
+  }
 
   const createPurchase = useCreatePurchase();
   const [loading, setLoading] = useState(false);
