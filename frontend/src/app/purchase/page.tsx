@@ -15,6 +15,7 @@ import { useSearchParams } from 'next/navigation';
 import { useCreatePurchase } from './hooks/useCreatePurchase';
 import { FormInput } from '@/components/forms/FormInput';
 import { useState } from 'react';
+import next from 'next';
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required('Por favor, informe seu nome completo'),
@@ -171,6 +172,7 @@ export default function RegistrationForm() {
       });
     } finally {
       setLoading(false);
+      window.location.href = '/page-option';
     }
   };
 
