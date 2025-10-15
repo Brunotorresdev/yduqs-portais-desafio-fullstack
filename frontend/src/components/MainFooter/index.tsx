@@ -11,13 +11,18 @@ import {
   useMediaQuery,
   Divider,
   Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
 } from '@mui/material';
 import Image from 'next/image';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const FooterSection = styled(Box)(({ theme }) => ({
+export const FooterSection = styled(Box)<{ component?: React.ElementType }>(({ theme }) => ({
   backgroundColor: '#001F66',
   color: '#FFFFFF',
   padding: theme.spacing(6, 0),
+  width: '100%',
   '& a': {
     color: '#FFFFFF',
     textDecoration: 'none',
@@ -28,7 +33,24 @@ const FooterSection = styled(Box)(({ theme }) => ({
   },
 }));
 
-const FooterTitle = styled(Typography)(({ theme }) => ({
+const StyledAccordion = styled(Accordion)(({ theme }) => ({
+  backgroundColor: 'transparent',
+  boxShadow: 'none',
+  width: '100%',
+  '&:before': {
+    display: 'none',
+  },
+}));
+
+const StyledAccordionSummary = styled(AccordionSummary)({
+  padding: 0,
+  minHeight: 'auto',
+  '& .MuiAccordionSummary-content': {
+    margin: '0',
+  },
+});
+
+export const FooterTitle = styled(Typography)(({ theme }) => ({
   fontSize: '16px',
   fontWeight: 600,
   marginBottom: theme.spacing(2),
@@ -38,7 +60,7 @@ const FooterTitle = styled(Typography)(({ theme }) => ({
   lineHeight: '150%',
 }));
 
-const FooterLink = styled(Link)({
+export const FooterLink = styled(Link)({
   fontSize: '16px',
   display: 'block',
   fontWeight: 400,
@@ -50,67 +72,155 @@ const FooterLink = styled(Link)({
   },
 });
 
+
+
+
+
 export function MainFooter() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const footerSections = [
+    {
+      title: 'A ESTÁCIO',
+      links: [
+        { text: 'Sobre a Estácio', href: '#' },
+        { text: 'Unidades', href: '#' },
+        { text: 'Sustentabilidade', href: '#' },
+        { text: 'Regulamentos', href: '#' },
+        { text: 'Trabalhe na Estácio', href: '#' },
+        { text: 'Convênios com Empresas', href: '#' },
+        { text: 'Seja Parceiro', href: '#' },
+        { text: 'Seja Fornecedor', href: '#' },
+        { text: 'Imprensa', href: '#' },
+      ],
+    },
+    {
+      title: 'ESTUDE NA ESTÁCIO',
+      links: [
+        { text: 'Por que nossa graduação?', href: '#' },
+        { text: 'Por que nossa pós?', href: '#' },
+        { text: 'Bolsas e financiamentos', href: '#' },
+        { text: 'Carreiras', href: '#' },
+        { text: 'Modelos de Ensino', href: '#' },
+        { text: 'Formas de Ingresso', href: '#' },
+        { text: 'EaD', href: '#' },
+        { text: 'Internacionalização', href: '#' },
+        { text: 'Clube do aluno', href: '#' },
+        { text: 'Informações e-MEC', href: '#' },
+      ],
+    },
+    {
+      title: 'CURSOS',
+      links: [
+        { text: 'Graduação', href: '#' },
+        { text: 'Pós graduação', href: '#' },
+        { text: 'Cursos Livres', href: '#' },
+        { text: '2ª Graduação', href: '#' },
+        { text: 'Pós-Graduação', href: '#' },
+        { text: 'Mestrado e Doutorado', href: '#' },
+        { text: 'Cursos livres', href: '#' },
+      ],
+    },
+    {
+      title: 'INSCREVA-SE',
+      links: [
+        { text: 'Vestibular', href: '#' },
+        { text: 'Enem', href: '#' },
+        { text: 'Transferência', href: '#' },
+        { text: 'Segunda Graduação', href: '#' },
+      ],
+    },
+  ];
+
+  const secondaryFooterSections = [
+    {
+      title: 'ÁREA DO ALUNO',
+      links: [
+        { text: 'Acessar área do aluno', href: '#' },
+        { text: 'Aplicativo na App Store', href: '#' },
+        { text: 'Aplicativo na Google Play', href: '#' },
+      ],
+    },
+    {
+      title: 'PARA COMEÇAR',
+      links: [
+        { text: 'Dicas de Estudo', href: '#' },
+        { text: 'Ensino Digital', href: '#' },
+        { text: 'Mercado de Trabalho', href: '#' },
+        { text: 'Sou calouro', href: '#' },
+        { text: 'Por que Estácio?', href: '#' },
+      ],
+    },
+    {
+      title: 'REDES SOCIAIS',
+      links: [
+        { text: 'Instagram', href: '#' },
+        { text: 'Facebook', href: '#' },
+        { text: 'Linkedin', href: '#' },
+        { text: 'Youtube', href: '#' },
+      ],
+    },
+    {
+      title: 'FALE COM A GENTE',
+      links: [
+        { text: 'Atendimento', href: '#' },
+        { text: 'Ouvidoria', href: '#' },
+      ],
+    },
+  ];
+
   return (
     <FooterSection component='footer'>
       <Container maxWidth='lg'>
         <Grid
           container
-          spacing={4}
+          spacing={isMobile ? 0 : 4}
           sx={{
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'wrap',
-            gap: 2,
+            gap: isMobile ? 0 : 2,
+            width: '100%',
           }}
         >
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterTitle>A ESTÁCIO</FooterTitle>
-            <FooterLink href='#'>Sobre a Estácio</FooterLink>
-            <FooterLink href='#'>Unidades</FooterLink>
-            <FooterLink href='#'>Sustentabilidade</FooterLink>
-            <FooterLink href='#'>Regulamentos</FooterLink>
-            <FooterLink href='#'>Trabalhe na Estácio</FooterLink>
-            <FooterLink href='#'>Convênios com Empresas</FooterLink>
-            <FooterLink href='#'>Seja Parceiro</FooterLink>
-            <FooterLink href='#'>Seja Fornecedor</FooterLink>
-            <FooterLink href='#'>Imprensa</FooterLink>
-          </Grid>
-
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterTitle>ESTUDE NA ESTÁCIO</FooterTitle>
-            <FooterLink href='#'>Por que nossa graduação?</FooterLink>
-            <FooterLink href='#'>Por que nossa pós?</FooterLink>
-            <FooterLink href='#'>Bolsas e financiamentos</FooterLink>
-            <FooterLink href='#'>Carreiras</FooterLink>
-            <FooterLink href='#'>Modelos de Ensino</FooterLink>
-            <FooterLink href='#'>Formas de Ingresso</FooterLink>
-            <FooterLink href='#'>EaD</FooterLink>
-            <FooterLink href='#'>Internacionalização</FooterLink>
-            <FooterLink href='#'>Clube do aluno</FooterLink>
-            <FooterLink href='#'>Informações e-MEC</FooterLink>
-          </Grid>
-
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterTitle>CURSOS</FooterTitle>
-            <FooterLink href='#'>Graduação</FooterLink>
-            <FooterLink href='#'>Pós graduação</FooterLink>
-            <FooterLink href='#'>Cursos Livres</FooterLink>
-            <FooterLink href='#'>2ª Graduação</FooterLink>
-            <FooterLink href='#'>Pós-Graduação</FooterLink>
-            <FooterLink href='#'>Mestrado e Doutorado</FooterLink>
-            <FooterLink href='#'>Cursos livres</FooterLink>
-          </Grid>
-
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterTitle>INSCREVA-SE</FooterTitle>
-            <FooterLink href='#'>Vestibular</FooterLink>
-            <FooterLink href='#'>Enem</FooterLink>
-            <FooterLink href='#'>Transferência</FooterLink>
-            <FooterLink href='#'>Segunda Graduação</FooterLink>
-          </Grid>
+          {footerSections.map((section) => (
+            <Grid key={section.title} width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3 }}>
+              {isMobile ? (
+                <Accordion
+                  sx={{
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                    '&:before': {
+                      display: 'none',
+                    },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon sx={{ color: '#FFF' }} />}
+                    sx={{ padding: 0 }}
+                  >
+                    <FooterTitle sx={{ margin: 0 }}>{section.title}</FooterTitle>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ padding: '0 0 0 16px' }}>
+                    {section.links.map((link, index) => (
+                      <FooterLink key={index} href={link.href}>
+                        {link.text}
+                      </FooterLink>
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+              ) : (
+                <>
+                  <FooterTitle>{section.title}</FooterTitle>
+                  {section.links.map((link, index) => (
+                    <FooterLink key={index} href={link.href}>
+                      {link.text}
+                    </FooterLink>
+                  ))}
+                </>
+              )}
+            </Grid>
+          ))}
         </Grid>
 
         <Grid
@@ -121,39 +231,47 @@ export function MainFooter() {
             flexDirection: 'row',
             flexWrap: 'wrap',
             gap: 2,
-
             mt: isMobile ? '16px' : '32px',
           }}
         >
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterTitle>ÁREA DO ALUNO</FooterTitle>
-            <FooterLink href='#'>Acessar área do aluno</FooterLink>
-            <FooterLink href='#'>Aplicativo na App Store</FooterLink>
-            <FooterLink href='#'>Aplicativo na Google Play</FooterLink>
-          </Grid>
-
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterTitle>PARA COMEÇAR</FooterTitle>
-            <FooterLink href='#'>Dicas de Estudo</FooterLink>
-            <FooterLink href='#'>Ensino Digital</FooterLink>
-            <FooterLink href='#'>Mercado de Trabalho</FooterLink>
-            <FooterLink href='#'>Sou calouro</FooterLink>
-            <FooterLink href='#'>Por que Estácio?</FooterLink>
-          </Grid>
-
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterTitle>REDES SOCIAIS</FooterTitle>
-            <FooterLink href='#'>Instagram</FooterLink>
-            <FooterLink href='#'>Facebook</FooterLink>
-            <FooterLink href='#'>Linkedin</FooterLink>
-            <FooterLink href='#'>Youtube</FooterLink>
-          </Grid>
-
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterTitle>FALE COM A GENTE</FooterTitle>
-            <FooterLink href='#'>Atendimento</FooterLink>
-            <FooterLink href='#'>Ouvidoria</FooterLink>
-          </Grid>
+          {secondaryFooterSections.map((section) => (
+            <Grid key={section.title} width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3 }}>
+              {isMobile ? (
+                <Accordion
+                  sx={{
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                    '&:before': {
+                      display: 'none',
+                    },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon sx={{ color: '#FFF' }} />}
+                    sx={{ padding: 0 }}
+                  >
+                    <FooterTitle sx={{ margin: 0 }}>{section.title}</FooterTitle>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ padding: '0 0 0 16px' }}>
+                    {section.links.map((link, index) => (
+                      <FooterLink key={index} href={link.href}>
+                        {link.text}
+                      </FooterLink>
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+              ) : (
+                <>
+                  <FooterTitle>{section.title}</FooterTitle>
+                  {section.links.map((link, index) => (
+                    <FooterLink key={index} href={link.href}>
+                      {link.text}
+                    </FooterLink>
+                  ))}
+                </>
+              )}
+            </Grid>
+          ))}
         </Grid>
         <Divider color='#E0E0E0' sx={{ mt: '32px' }} />
 
@@ -168,7 +286,8 @@ export function MainFooter() {
             alignItems: 'center',
           }}
         >
-          <Grid width={'160px'} size={{ xs: 12, sm: 3 }}>
+                    <Grid width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3}}>
+
             <FooterLink href='#'>Política de privacidade</FooterLink>
             <FooterLink href='#'>Código de Ética</FooterLink>
             <FooterLink href='#'>Preferências de cookies</FooterLink>
@@ -177,7 +296,7 @@ export function MainFooter() {
 
           <Box>
             <Image
-              src='/images/image_footer.png'
+              src='/images/image_footer2.png'
               alt='Logo da empresa'
               width={265}
               height={189}
@@ -190,9 +309,11 @@ export function MainFooter() {
         </Box>
         <Divider color='#E0E0E0' sx={{ mt: isMobile ? '16px' : '32px' }} />
 
-        <Grid mt={'32px'} size={{ xs: 12, sm: 3 }}>
+        <Grid mt={'32px'} size={{ xs: 12, sm: 3}}>
           <FooterLink href='#'>Estácio Brasil - Todos os direitos reservados</FooterLink>
         </Grid>
+
+        
       </Container>
     </FooterSection>
   );

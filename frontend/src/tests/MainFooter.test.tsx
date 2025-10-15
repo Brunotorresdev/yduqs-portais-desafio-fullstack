@@ -1,20 +1,84 @@
 import React from 'react';
-import { render, screen } from '@/tests/test-utils';
+import { render, screen, fireEvent } from '@/tests/test-utils';
 import { MainFooter } from '@/components/MainFooter';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { useMediaQuery } from '@mui/material';
+
+// Mock useMediaQuery
+vi.mock('@mui/material', async () => {
+  const actual = await vi.importActual('@mui/material');
+  return {
+    ...actual,
+    useMediaQuery: vi.fn(),
+  };
+});
 
 describe('MainFooter', () => {
-  it('should render all main sections', () => {
-    render(<MainFooter />);
-    
-    expect(screen.getByText('A ESTÁCIO')).toBeInTheDocument();
-    expect(screen.getByText('ESTUDE NA ESTÁCIO')).toBeInTheDocument();
-    expect(screen.getByText('CURSOS')).toBeInTheDocument();
-    expect(screen.getByText('INSCREVA-SE')).toBeInTheDocument();
-    expect(screen.getByText('ÁREA DO ALUNO')).toBeInTheDocument();
-    expect(screen.getByText('PARA COMEÇAR')).toBeInTheDocument();
-    expect(screen.getByText('REDES SOCIAIS')).toBeInTheDocument();
-    expect(screen.getByText('FALE COM A GENTE')).toBeInTheDocument();
+  describe('Desktop View', () => {
+    beforeEach(() => {
+      (useMediaQuery as any).mockReturnValue(false); // Desktop view
+    });
+
+    it('should render all main sections expanded', () => {
+      render(<MainFooter />);
+      
+      expect(screen.getByText('A ESTÁCIO')).toBeInTheDocument();
+      expect(screen.getByText('ESTUDE NA ESTÁCIO')).toBeInTheDocument();
+      expect(screen.getByText('CURSOS')).toBeInTheDocument();
+      expect(screen.getByText('INSCREVA-SE')).toBeInTheDocument();
+      expect(screen.getByText('ÁREA DO ALUNO')).toBeInTheDocument();
+      expect(screen.getByText('PARA COMEÇAR')).toBeInTheDocument();
+      expect(screen.getByText('REDES SOCIAIS')).toBeInTheDocument();
+      expect(screen.getByText('FALE COM A GENTE')).toBeInTheDocument();
+
+      // Links should be visible without clicking
+      expect(screen.getByText('Sobre a Estácio')).toBeVisible();
+      expect(screen.getByText('Graduação')).toBeVisible();
+    });
+  });
+
+  describe('Mobile View', () => {
+    beforeEach(() => {
+      (useMediaQuery as any).mockReturnValue(true); // Mobile view
+    });
+
+    it('should render all sections as accordions', () => {
+      render(<MainFooter />);
+      
+      const expandIcons = screen.getAllByTestId('ExpandMoreIcon');
+      expect(expandIcons.length).toBeGreaterThan(0);
+    });
+
+    it('should show links when accordion is expanded', () => {
+      render(<MainFooter />);
+      
+      // Initially links should be hidden
+      const estacioLink = screen.getByText('Sobre a Estácio');
+      expect(estacioLink).not.toBeVisible();
+
+      // Click to expand
+      const estacioTitle = screen.getByText('A ESTÁCIO');
+      fireEvent.click(estacioTitle);
+
+      // Now link should be visible
+      expect(estacioLink).toBeVisible();
+    });
+
+    it('should handle multiple accordions independently', () => {
+      render(<MainFooter />);
+      
+      // Expand first section
+      fireEvent.click(screen.getByText('A ESTÁCIO'));
+      expect(screen.getByText('Sobre a Estácio')).toBeVisible();
+
+      // Expand second section
+      fireEvent.click(screen.getByText('CURSOS'));
+      expect(screen.getByText('Graduação')).toBeVisible();
+
+      // Both sections should remain expanded
+      expect(screen.getByText('Sobre a Estácio')).toBeVisible();
+      expect(screen.getByText('Graduação')).toBeVisible();
+    });
   });
 
   it('should render important links in A ESTÁCIO section', () => {
