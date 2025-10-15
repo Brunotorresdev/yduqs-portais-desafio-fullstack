@@ -1,5 +1,5 @@
 'use client';
-
+import React from 'react';
 import { FormInput } from '@/components/forms/FormInput';
 
 interface FormFieldsProps {
@@ -16,26 +16,26 @@ export function FormFields({ formatters }: FormFieldsProps) {
   return (
     <>
       <FormInput
-        name="fullName"
-        placeholder="Nome completo"
-        helperText="Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação."
+        name='fullName'
+        placeholder='Nome completo'
+        helperText='Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação.'
       />
 
-      <FormInput name="cpf" placeholder="CPF" maxLength={14} formatValue={formatCPF} />
+      <FormInput name='cpf' placeholder='CPF' maxLength={14} formatValue={formatCPF} />
       <FormInput
-        name="birthDate"
-        placeholder="Data de nascimento"
+        name='birthDate'
+        placeholder='Data de nascimento'
         maxLength={10}
         formatValue={formatDate}
       />
-      <FormInput name="email" placeholder="E-mail" type="email" />
+      <FormInput name='email' placeholder='E-mail' type='email' />
       <FormInput
-        name="phone"
-        placeholder="Celular para contato"
+        name='phone'
+        placeholder='Celular para contato'
         maxLength={15}
         formatValue={formatPhone}
       />
-      <FormInput name="graduationYear" placeholder="Ano de conclusão do ensino ..." maxLength={4} />
+      <FormInput name='graduationYear' placeholder='Ano de conclusão do ensino ...' maxLength={4} />
     </>
   );
 }

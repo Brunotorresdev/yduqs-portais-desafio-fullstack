@@ -1,5 +1,5 @@
 'use client';
-
+import React from 'react';
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import { ErrorMessage, Field } from 'formik';
 
@@ -16,8 +16,8 @@ export function TermsSection() {
           control={
             <Field
               as={Checkbox}
-              name="acceptTerms"
-              color="primary"
+              name='acceptTerms'
+              color='primary'
               sx={{
                 color: '#000',
                 '&.Mui-checked': { color: '#000' },
@@ -26,7 +26,7 @@ export function TermsSection() {
           }
           label={
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 fontFamily: '"Inter", "Roboto", sans-serif',
                 fontSize: '16px',
@@ -42,7 +42,7 @@ export function TermsSection() {
           }
         />
         <div style={{ color: 'red', fontSize: '0.75rem', marginTop: '3px' }}>
-          <ErrorMessage name="acceptTerms" component="div" />
+          <ErrorMessage name='acceptTerms' component='div' />
         </div>
       </Box>
 
@@ -56,8 +56,8 @@ export function TermsSection() {
           control={
             <Field
               as={Checkbox}
-              name="acceptWhatsApp"
-              color="primary"
+              name='acceptWhatsApp'
+              color='primary'
               sx={{
                 color: '#000',
                 '&.Mui-checked': { color: '#000' },
@@ -66,7 +66,7 @@ export function TermsSection() {
           }
           label={
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 fontFamily: '"Inter", "Roboto", sans-serif',
                 fontSize: '16px',
