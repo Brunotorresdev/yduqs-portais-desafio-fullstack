@@ -28,22 +28,39 @@ Este é um projeto fullstack que consiste em um portal para inscrição em curso
    git clone https://github.com/Brunotorresdev/yduqs-portais-desafio-fullstack.git
    ```
 
-2. Acesse a pasta do projeto e instale as dependências de cada ambiente:
+2. Acesse a pasta do projeto e configure o ambiente:
    ```bash
    cd yduqs-portais-desafio-fullstack
    ```
-   
+
+   ### Backend Setup:
    ```bash
-   # No diretório /backend
+   # Entre no diretório backend
    cd backend
+   
+   # Copie o arquivo de exemplo de variáveis de ambiente
+   cp .env.example .env
+   
+   # Inicie o banco de dados PostgreSQL usando Docker
+   docker-compose up -d
+   
+   # Instale as dependências
    yarn install
    ```
    
+   ### Frontend Setup:
    ```bash
-   # No diretório /frontend
+   # Entre no diretório frontend
    cd ../frontend
+   
+   # Copie o arquivo de exemplo de variáveis de ambiente
+   cp .env.example .env
+   
+   # Instale as dependências
    yarn install
    ```
+
+   > **Nota**: Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina antes de executar os comandos acima.
 
 3. Rode o **backend** e o **frontend**:
    
@@ -98,7 +115,6 @@ cd frontend
 yarn test        # Roda os testes unitários
 yarn test:watch  # Roda os testes em modo watch
 ```
-
 ## �📓 Acompanhamento do Projeto
 
 O andamento detalhado do desenvolvimento, decisões de arquitetura e outras anotações podem ser encontradas no Notion:
