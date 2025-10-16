@@ -21,7 +21,7 @@ describe('MainFooter', () => {
 
     it('should render all main sections expanded', () => {
       render(<MainFooter />);
-      
+
       expect(screen.getByText('A ESTÁCIO')).toBeInTheDocument();
       expect(screen.getByText('ESTUDE NA ESTÁCIO')).toBeInTheDocument();
       expect(screen.getByText('CURSOS')).toBeInTheDocument();
@@ -38,18 +38,19 @@ describe('MainFooter', () => {
 
   describe('Mobile View', () => {
     beforeEach(() => {
+      (useMediaQuery as any).mockReturnValue(true); // 👈 faltou isso!
     });
 
     it('should render all sections as accordions', () => {
       render(<MainFooter />);
-      
+
       const expandIcons = screen.getAllByTestId('ExpandMoreIcon');
       expect(expandIcons.length).toBeGreaterThan(0);
     });
 
     it('should show links when accordion is expanded', () => {
       render(<MainFooter />);
-      
+
       const estacioLink = screen.getByText('Sobre a Estácio');
       expect(estacioLink).not.toBeVisible();
 
@@ -61,7 +62,7 @@ describe('MainFooter', () => {
 
     it('should handle multiple accordions independently', () => {
       render(<MainFooter />);
-      
+
       fireEvent.click(screen.getByText('A ESTÁCIO'));
       expect(screen.getByText('Sobre a Estácio')).toBeVisible();
 
@@ -75,7 +76,7 @@ describe('MainFooter', () => {
 
   it('should render important links in A ESTÁCIO section', () => {
     render(<MainFooter />);
-    
+
     expect(screen.getByText('Sobre a Estácio')).toBeInTheDocument();
     expect(screen.getByText('Unidades')).toBeInTheDocument();
     expect(screen.getByText('Sustentabilidade')).toBeInTheDocument();
@@ -83,7 +84,7 @@ describe('MainFooter', () => {
 
   it('should render social media links', () => {
     render(<MainFooter />);
-    
+
     expect(screen.getByText('Instagram')).toBeInTheDocument();
     expect(screen.getByText('Facebook')).toBeInTheDocument();
     expect(screen.getByText('Linkedin')).toBeInTheDocument();
@@ -92,14 +93,14 @@ describe('MainFooter', () => {
 
   it('should render contact information', () => {
     render(<MainFooter />);
-    
+
     expect(screen.getByText('Atendimento')).toBeInTheDocument();
     expect(screen.getByText('Ouvidoria')).toBeInTheDocument();
   });
 
   it('should render copyright and policy links', () => {
     render(<MainFooter />);
-    
+
     expect(screen.getByText('Estácio Brasil - Todos os direitos reservados')).toBeInTheDocument();
     expect(screen.getByText('Política de privacidade')).toBeInTheDocument();
     expect(screen.getByText('Código de Ética')).toBeInTheDocument();
@@ -109,10 +110,10 @@ describe('MainFooter', () => {
 
   it('should render all links as clickable elements', () => {
     render(<MainFooter />);
-    
+
     const links = screen.getAllByRole('link');
     expect(links.length).toBeGreaterThan(0);
-    
+
     links.forEach(link => {
       expect(link).toHaveAttribute('href');
     });

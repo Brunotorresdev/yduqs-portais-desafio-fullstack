@@ -38,7 +38,7 @@ describe('FormFields', () => {
     expect(screen.getByLabelText('Data de nascimento')).toBeInTheDocument();
     expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
     expect(screen.getByLabelText('Celular para contato')).toBeInTheDocument();
-    expect(screen.getByLabelText('Ano de conclusão do ensino ...')).toBeInTheDocument();
+    expect(screen.getByLabelText('Ano de conclusão do ensino médio')).toBeInTheDocument();
   });
 
   it('should render helper text for name field', () => {
