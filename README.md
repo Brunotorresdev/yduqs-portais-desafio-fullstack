@@ -62,7 +62,14 @@ Este é um projeto fullstack que consiste em um portal para inscrição em curso
 
    > **Nota**: Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina antes de executar os comandos acima.
 
-3. Rode o **backend** e o **frontend**:
+3. Inicie o banco de dados e verifique seu status:
+   ```bash
+   # A partir da pasta /backend
+   docker-compose up -d     # Inicia o PostgreSQL em background
+   docker-compose ps        # Verifica se o container está rodando
+   ```
+
+4. Rode o **backend** e o **frontend**:
    
    **Backend (NestJS)**
    ```bash
@@ -75,6 +82,8 @@ Este é um projeto fullstack que consiste em um portal para inscrição em curso
    # A partir da pasta /frontend
    yarn dev
    ```
+
+   > **Importante**: Certifique-se de que o container do PostgreSQL está rodando (status "Up") antes de iniciar o backend. Você pode verificar os logs do banco com `docker-compose logs db`.
 
 ---
 
