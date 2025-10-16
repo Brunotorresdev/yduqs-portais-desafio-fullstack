@@ -142,7 +142,9 @@ yarn test:watch  # Roda os testes em modo watch
 ```
 ## �📓 Acompanhamento do Projeto
 
-O andamento detalhado do desenvolvimento, decisões de arquitetura e outras anotações podem ser encontradas no Notion:
+O andamento do desenvolvimento, decisões de planejamento, e organização das demandas de uma maneita mais superficial, para ajudar na otimização do processo, utilizei o notion:
+
+---   
 
 🔗 **[https://www.notion.so/Teste-YDUQS-2876385c282c802a85a8c3c7b177bc0f?source=copy_link]**
 
