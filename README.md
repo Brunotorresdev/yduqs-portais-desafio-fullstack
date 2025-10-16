@@ -62,12 +62,27 @@ Este é um projeto fullstack que consiste em um portal para inscrição em curso
 
    > **Nota**: Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina antes de executar os comandos acima.
 
-3. Inicie o banco de dados e verifique seu status:
+3. Configure o banco de dados:
    ```bash
    # A partir da pasta /backend
-   docker-compose up -d     # Inicia o PostgreSQL em background
-   docker-compose ps        # Verifica se o container está rodando
+   
+   # Inicie o PostgreSQL com Docker
+   docker-compose up -d
+   
+   # Verifique se o container está rodando
+   docker-compose ps
+   
+   # Gere os artefatos do Prisma
+   yarn prisma generate
+   
+   # Execute as migrações do banco de dados
+   yarn prisma migrate deploy
+   
+   # (Opcional) Visualize o banco de dados no Prisma Studio
+   yarn prisma studio
    ```
+
+   > **Importante**: Certifique-se de que o container do PostgreSQL está rodando (status "Up") antes de prosseguir. Você pode verificar os logs do banco com `docker-compose logs db`.
 
 4. Rode o **backend** e o **frontend**:
    
@@ -82,8 +97,6 @@ Este é um projeto fullstack que consiste em um portal para inscrição em curso
    # A partir da pasta /frontend
    yarn dev
    ```
-
-   > **Importante**: Certifique-se de que o container do PostgreSQL está rodando (status "Up") antes de iniciar o backend. Você pode verificar os logs do banco com `docker-compose logs db`.
 
 ---
 
