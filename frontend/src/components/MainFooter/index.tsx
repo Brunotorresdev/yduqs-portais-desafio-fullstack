@@ -13,7 +13,7 @@ import {
   Grid,
   Accordion,
   AccordionSummary,
-  AccordionDetails
+  AccordionDetails,
 } from '@mui/material';
 import Image from 'next/image';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -71,10 +71,6 @@ export const FooterLink = styled(Link)({
     lineHeight: '150%',
   },
 });
-
-
-
-
 
 export function MainFooter() {
   const theme = useTheme();
@@ -183,7 +179,7 @@ export function MainFooter() {
             width: '100%',
           }}
         >
-          {footerSections.map((section) => (
+          {footerSections.map(section => (
             <Grid key={section.title} width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3 }}>
               {isMobile ? (
                 <Accordion
@@ -234,7 +230,7 @@ export function MainFooter() {
             mt: isMobile ? '16px' : '32px',
           }}
         >
-          {secondaryFooterSections.map((section) => (
+          {secondaryFooterSections.map(section => (
             <Grid key={section.title} width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3 }}>
               {isMobile ? (
                 <Accordion
@@ -286,8 +282,7 @@ export function MainFooter() {
             alignItems: 'center',
           }}
         >
-                    <Grid width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3}}>
-
+          <Grid width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3 }}>
             <FooterLink href='#'>Política de privacidade</FooterLink>
             <FooterLink href='#'>Código de Ética</FooterLink>
             <FooterLink href='#'>Preferências de cookies</FooterLink>
@@ -302,18 +297,16 @@ export function MainFooter() {
               height={189}
               priority
               style={{
-                marginLeft: isMobile ? '16px' : 0,
+                marginLeft: isMobile ? '37px' : 0,
               }}
             />
           </Box>
         </Box>
         <Divider color='#E0E0E0' sx={{ mt: isMobile ? '16px' : '32px' }} />
 
-        <Grid mt={'32px'} size={{ xs: 12, sm: 3}}>
+        <Grid mt={'32px'} size={{ xs: 12, sm: 3 }}>
           <FooterLink href='#'>Estácio Brasil - Todos os direitos reservados</FooterLink>
         </Grid>
-
-        
       </Container>
     </FooterSection>
   );
