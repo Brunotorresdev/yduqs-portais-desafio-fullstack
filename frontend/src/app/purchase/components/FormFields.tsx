@@ -7,11 +7,12 @@ interface FormFieldsProps {
     formatCPF: (value: string) => string;
     formatDate: (value: string) => string;
     formatPhone: (value: string) => string;
+    formatOnlyNumbers?: (value: string) => string;
   };
 }
 
 export function FormFields({ formatters }: FormFieldsProps) {
-  const { formatCPF, formatDate, formatPhone } = formatters;
+  const { formatCPF, formatDate, formatPhone, formatOnlyNumbers = (value: string) => value.replace(/\D/g, '') } = formatters;
 
   return (
     <>
@@ -35,7 +36,12 @@ export function FormFields({ formatters }: FormFieldsProps) {
         maxLength={15}
         formatValue={formatPhone}
       />
-      <FormInput name='graduationYear' placeholder='Ano de conclusão do ensino ...' maxLength={4} />
+      <FormInput 
+        name='graduationYear' 
+        placeholder='Ano de conclusão do ensino médio'
+        maxLength={4}
+        formatValue={formatOnlyNumbers}
+      />
     </>
   );
 }

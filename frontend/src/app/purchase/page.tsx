@@ -8,16 +8,15 @@ import { useCourse } from '@/contexts/CourseContext';
 import { Box, useTheme, useMediaQuery } from '@mui/material';
 import { FormFields } from './components/FormFields';
 import { FormActions } from './components/FormActions';
-import { LoadingAndToast } from './components/LoadingAndToast';
+
 import { TermsSection } from './components/TermsSection';
+import { FeedbackModal } from '@/components/FeedbackModal';
 import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useCreatePurchase } from './hooks/useCreatePurchase';
-import { FormInput } from '@/components/forms/FormInput';
 import { useState } from 'react';
-import next from 'next';
 
 const validationSchema = Yup.object({
   fullName: Yup.string().required('Por favor, informe seu nome completo'),
@@ -110,19 +109,25 @@ export default function RegistrationForm() {
   }
 
   const createPurchase = useCreatePurchase();
-  const [loading, setLoading] = useState(false);
-
-  const [toast, setToast] = useState<{
+  const [feedbackModal, setFeedbackModal] = useState<{
     open: boolean;
+    title: string;
     message: string;
-    severity: 'success' | 'error';
+    type: 'success' | 'error';
   }>({
     open: false,
+    title: '',
     message: '',
-    severity: 'success',
+    type: 'success',
   });
+  const router = useRouter();
 
-  const handleCloseToast = () => setToast({ ...toast, open: false });
+  const handleCloseFeedback = () => {
+    setFeedbackModal(prev => ({ ...prev, open: false }));
+    if (feedbackModal.type === 'success') {
+      router.push('/page-option');
+    }
+  };
 
   const handleSubmit = async (values: any) => {
     const convertBrazilianDateToISO = (dateString: string) => {
@@ -148,16 +153,13 @@ export default function RegistrationForm() {
     };
 
     try {
-      setLoading(true);
       await createPurchase.mutateAsync(payload);
-
-      setToast({
+      setFeedbackModal({
         open: true,
-        message: 'Inscrição enviada com sucesso!',
-        severity: 'success',
+        title: 'Inscrição realizada com sucesso!',
+        message: `Obrigado ${values.fullName.split(' ')[0]}! Seu interesse é muito importante para nós. Em breve entraremos em contato para dar continuidade ao seu processo de matrícula.`,
+        type: 'success',
       });
-      window.location.href = '/page-option';
-
     } catch (error: any) {
       console.error('Erro ao criar compra:', error);
       let errorMessage = 'Ocorreu um erro inesperado ao enviar os dados. Tente novamente.';
@@ -180,13 +182,12 @@ export default function RegistrationForm() {
         errorMessage = 'Erro interno do servidor. Por favor, tente novamente mais tarde.';
       }
 
-      setToast({
+      setFeedbackModal({
         open: true,
+        title: 'Erro ao enviar inscrição',
         message: errorMessage,
-        severity: 'error',
+        type: 'error',
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -274,7 +275,14 @@ export default function RegistrationForm() {
         <Footer />
       </div>
 
-      <LoadingAndToast loading={loading} toast={toast} onCloseToast={handleCloseToast} />
+      <FeedbackModal
+        open={feedbackModal.open}
+        title={feedbackModal.title}
+        message={feedbackModal.message}
+        type={feedbackModal.type}
+        onClose={handleCloseFeedback}
+        buttonText={feedbackModal.type === 'success' ? 'Continuar' : 'Fechar'}
+      />
     </>
   );
 }
