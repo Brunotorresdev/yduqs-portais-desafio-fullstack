@@ -35,7 +35,7 @@ export function ModalOptionsValues({
   const [isNavigating, setIsNavigating] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const { setSelectedCourse, setSelectedInstallmentOption,clearSelections} = useCourse();
+  const { setSelectedCourse, setSelectedInstallmentOption, clearSelections } = useCourse();
 
   const handleAdvance = () => {
     setIsNavigating(true);
@@ -138,12 +138,21 @@ export function ModalOptionsValues({
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
-                      px: 2,
-                      py: 1,
+                      px: isMobile ? 0.2 : 2,
+                      py: isMobile ? 0.2 : 1,
                       borderTop: '1px solid #144BC8',
+                      paddingRight: isMobile ? '9px' : '35px',
                     }}
                   >
                     <FormControlLabel
+                      sx={{
+                        '.MuiFormControlLabel-label': {
+                          fontSize: isMobile ? '12px' : '14px',
+                          fontFamily: '"Inter", "Roboto", sans-serif',
+                          fontWeight: 500,
+                          marginRight: '0',
+                        },
+                      }}
                       value={opt.parcels.toString()}
                       control={
                         <Radio
@@ -152,6 +161,7 @@ export function ModalOptionsValues({
                             '&.Mui-checked': {
                               color: '#000',
                             },
+                            padding: isMobile ? '12px' : '8px',
                           }}
                         />
                       }
@@ -159,7 +169,13 @@ export function ModalOptionsValues({
                         minimumFractionDigits: 2,
                       })}`}
                     />
-                    <Typography>
+                    <Typography
+                      sx={{
+                        fontSize: isMobile ? '12px' : '14px',
+                        fontFamily: '"Inter", "Roboto", sans-serif',
+                        fontWeight: 400,
+                      }}
+                    >
                       R$ {opt.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </Typography>
                   </Box>
