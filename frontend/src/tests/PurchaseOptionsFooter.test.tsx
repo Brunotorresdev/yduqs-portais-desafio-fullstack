@@ -43,13 +43,12 @@ describe('PurchaseOptionsFooter', () => {
     const incentiveSection = screen.getByText('Sobre a Bolsa Incentivo');
     const summarySection = screen.getByText('Resumo das suas escolhas');
 
-    fireEvent.click(incentiveSection); // open first
+    fireEvent.click(incentiveSection); 
     expect(incentiveSection.closest('button')).toHaveAttribute('aria-expanded', 'true');
 
-    fireEvent.click(summarySection); // open second
+    fireEvent.click(summarySection); 
     expect(summarySection.closest('button')).toHaveAttribute('aria-expanded', 'true');
 
-    // First section should be collapsed
     expect(incentiveSection.closest('button')).toHaveAttribute('aria-expanded', 'false');
   });
 });

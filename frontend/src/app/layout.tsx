@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CssBaseline />
         <Providers>
           <main>{children}</main>
-          <MainFooter />
+          {/*  */}
         </Providers>
       </body>
     </html>
