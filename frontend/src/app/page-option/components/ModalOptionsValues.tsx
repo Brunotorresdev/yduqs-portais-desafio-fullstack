@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -56,7 +56,7 @@ export function ModalOptionsValues({
       setSelectedInstallmentOption(selectedOption);
     }
 
-    router.push('/purchase');
+    setTimeout(() => router.push('/purchase'), 50);
   };
 
   const handleClose = () => {
@@ -64,6 +64,15 @@ export function ModalOptionsValues({
     formik.setFieldValue('selectedParcel', '');
     clearSelections();
   };
+
+  useEffect(() => {
+    if (formik.values.open) {
+      try {
+        router.prefetch('/purchase');
+      } catch (e) {
+      }
+    }
+  }, [formik.values.open, router]);
 
   return (
     <Dialog open={formik.values.open} onClose={() => handleClose()} maxWidth="sm" fullWidth>

@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from 'next/navigation';
 import { Box, Typography, Button, useTheme, useMediaQuery } from '@mui/material';
 import { ModalOptionsValues } from './ModalOptionsValues';
 import { Formik } from 'formik';
@@ -10,6 +13,7 @@ interface CardOptionsProps {
 }
 
 export default function CardOptions({ item }: CardOptionsProps) {
+  const router = useRouter();
   const hasValue = typeof item.cash_value === 'number' && !isNaN(item.cash_value);
   const tournName = item.tourns?.[0]?.name || '';
   const installments = hasValue ? item.installments || [] : [];
@@ -83,6 +87,11 @@ export default function CardOptions({ item }: CardOptionsProps) {
               <Button
                 variant="contained"
                 onClick={() => {
+                  try {
+                    router.prefetch('/purchase');
+                  } catch (e) {
+                  }
+
                   formik.setFieldValue('open', true);
                   formik.setFieldValue('cardOptionId', item.id);
                   setSelectedCourse(item.id);
