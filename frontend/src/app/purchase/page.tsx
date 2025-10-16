@@ -4,6 +4,7 @@ import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { NoCardOptionSelected } from '@/components/NoCardOptionSelected';
+import { useCourse } from '@/contexts/CourseContext';
 import { Box, useTheme, useMediaQuery } from '@mui/material';
 import { FormFields } from './components/FormFields';
 import { FormActions } from './components/FormActions';
@@ -92,12 +93,9 @@ interface PurchasePayload {
 }
 
 export default function RegistrationForm() {
-  const searchParams = useSearchParams();
-  const cardOptionId = searchParams.get('cardOptionId');
-  const selectedParcel = searchParams.get('selectedParcel');
-  const parcelData = selectedParcel ? JSON.parse(selectedParcel) : null;
+  const { selectedCourseId, selectedInstallment } = useCourse();
 
-  if (!cardOptionId) {
+  if (!selectedCourseId) {
     return (
       <>
         <Header />
@@ -133,7 +131,7 @@ export default function RegistrationForm() {
     };
 
     const payload: PurchasePayload = {
-      course_option_id: cardOptionId,
+      course_option_id: selectedCourseId,
       client: {
         name: values.fullName,
         identifier: values.cpf.replace(/\D/g, ''),
@@ -144,9 +142,9 @@ export default function RegistrationForm() {
       },
       accepted_terms: values.acceptTerms,
       accepted_whatsapp_updates: values.acceptWhatsApp,
-      total_installments: parcelData?.parcels,
-      installment_value: parcelData?.installment,
-      total_value: parcelData?.total,
+      total_installments: selectedInstallment?.parcels,
+      installment_value: selectedInstallment?.installment,
+      total_value: selectedInstallment?.total,
     };
 
     try {
@@ -158,6 +156,8 @@ export default function RegistrationForm() {
         message: 'Inscrição enviada com sucesso!',
         severity: 'success',
       });
+      window.location.href = '/page-option';
+
     } catch (error: any) {
       console.error('Erro ao criar compra:', error);
       let errorMessage = 'Ocorreu um erro inesperado ao enviar os dados. Tente novamente.';
@@ -169,7 +169,7 @@ export default function RegistrationForm() {
           errorMessage = error.response.data.message;
         }
       } else if (error?.response?.status === 400) {
-        if (!cardOptionId) {
+        if (!selectedCourseId) {
           errorMessage = 'Por favor, selecione um curso para prosseguir com a inscrição.';
         } else {
           errorMessage = 'Alguns campos estão inválidos. Por favor, verifique os dados informados.';
@@ -187,7 +187,6 @@ export default function RegistrationForm() {
       });
     } finally {
       setLoading(false);
-      window.location.href = '/page-option';
     }
   };
 

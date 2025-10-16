@@ -16,7 +16,7 @@ vi.mock('@mui/material', async () => {
 describe('MainFooter', () => {
   describe('Desktop View', () => {
     beforeEach(() => {
-      (useMediaQuery as any).mockReturnValue(false); // Desktop view
+      (useMediaQuery as any).mockReturnValue(false);
     });
 
     it('should render all main sections expanded', () => {
@@ -31,7 +31,6 @@ describe('MainFooter', () => {
       expect(screen.getByText('REDES SOCIAIS')).toBeInTheDocument();
       expect(screen.getByText('FALE COM A GENTE')).toBeInTheDocument();
 
-      // Links should be visible without clicking
       expect(screen.getByText('Sobre a Estácio')).toBeVisible();
       expect(screen.getByText('Graduação')).toBeVisible();
     });
@@ -39,7 +38,6 @@ describe('MainFooter', () => {
 
   describe('Mobile View', () => {
     beforeEach(() => {
-      (useMediaQuery as any).mockReturnValue(true); // Mobile view
     });
 
     it('should render all sections as accordions', () => {
@@ -52,30 +50,24 @@ describe('MainFooter', () => {
     it('should show links when accordion is expanded', () => {
       render(<MainFooter />);
       
-      // Initially links should be hidden
       const estacioLink = screen.getByText('Sobre a Estácio');
       expect(estacioLink).not.toBeVisible();
 
-      // Click to expand
       const estacioTitle = screen.getByText('A ESTÁCIO');
       fireEvent.click(estacioTitle);
 
-      // Now link should be visible
       expect(estacioLink).toBeVisible();
     });
 
     it('should handle multiple accordions independently', () => {
       render(<MainFooter />);
       
-      // Expand first section
       fireEvent.click(screen.getByText('A ESTÁCIO'));
       expect(screen.getByText('Sobre a Estácio')).toBeVisible();
 
-      // Expand second section
       fireEvent.click(screen.getByText('CURSOS'));
       expect(screen.getByText('Graduação')).toBeVisible();
 
-      // Both sections should remain expanded
       expect(screen.getByText('Sobre a Estácio')).toBeVisible();
       expect(screen.getByText('Graduação')).toBeVisible();
     });

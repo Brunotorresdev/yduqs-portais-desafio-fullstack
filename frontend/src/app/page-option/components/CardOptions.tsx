@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, Typography, Button, useTheme, useMediaQuery } from '@mui/material';
 import { ModalOptionsValues } from './ModalOptionsValues';
 import { Formik } from 'formik';
+import { useCourse } from '@/contexts/CourseContext';
 
 interface Tour {
   id: string;
@@ -24,10 +25,10 @@ interface CardOptionsProps {
 }
 
 export default function CardOptions({ item }: CardOptionsProps) {
-  // const [open, setOpen] = useState(false);
   const hasValue = typeof item.cash_value === 'number' && !isNaN(item.cash_value);
   const tournName = item.tourns?.[0]?.name || '';
   const installments = hasValue ? item.installments || [] : [];
+  const {setSelectedCourse} = useCourse();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
@@ -96,6 +97,7 @@ export default function CardOptions({ item }: CardOptionsProps) {
                 onClick={() => {
                   formik.setFieldValue('open', true);
                   formik.setFieldValue('cardOptionId', item.id);
+                  setSelectedCourse(item.id);
                 }}
                 sx={{
                   backgroundColor: '#FF3D5B',

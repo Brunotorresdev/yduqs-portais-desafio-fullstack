@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { PurchaseOptionsFooter } from './PurchaseOptionsFooter';
 import { Close } from '@mui/icons-material';
+import { useCourse } from '@/contexts/CourseContext';
 
 interface ModalOptionsValuesProps {
   hasValue: boolean;
@@ -34,6 +35,7 @@ export function ModalOptionsValues({
   const [isNavigating, setIsNavigating] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { setSelectedCourse, setSelectedInstallmentOption,clearSelections} = useCourse();
 
   const handleAdvance = () => {
     setIsNavigating(true);
@@ -41,18 +43,18 @@ export function ModalOptionsValues({
       opt => opt.parcels === Number(formik.values.selectedParcel)
     );
 
-    const selectedOptionConverted = selectedOption ? JSON.stringify(selectedOption) : '';
+    if (selectedOption) {
+      setSelectedCourse(formik.values.cardOptionId);
+      setSelectedInstallmentOption(selectedOption);
+    }
 
-    const query = new URLSearchParams({
-      cardOptionId: formik.values.cardOptionId,
-      selectedParcel: selectedOptionConverted,
-    }).toString();
-
-    router.push(`/purchase?${query}`);
+    router.push('/purchase');
   };
 
   const handleClose = () => {
     formik.setFieldValue('open', false);
+    formik.setFieldValue('selectedParcel', '');
+    clearSelections();
   };
 
   return (
@@ -169,7 +171,7 @@ export function ModalOptionsValues({
             <Button
               variant='contained'
               onClick={handleAdvance}
-              disabled={isNavigating}
+              disabled={isNavigating || !formik.values.selectedParcel}
               sx={{
                 backgroundColor: '#FF3D5B',
                 color: '#FFF',
