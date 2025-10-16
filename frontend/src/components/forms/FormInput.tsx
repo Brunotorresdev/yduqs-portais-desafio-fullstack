@@ -24,7 +24,8 @@ export function FormInput({
   multiline = false,
   rows,
 }: FormInputProps) {
-  const { values, handleChange, handleBlur, setFieldValue, touched, errors } = useFormikContext<any>();
+  const { values, handleChange, handleBlur, setFieldValue, touched, errors } =
+    useFormikContext<any>();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formatValue) {
@@ -53,8 +54,8 @@ export function FormInput({
           sx: {
             color: '#d32f2f',
             margin: 0,
-            marginTop: '4px'
-          }
+            marginTop: '4px',
+          },
         }}
         sx={{
           '& .MuiOutlinedInput-root': {
@@ -63,18 +64,18 @@ export function FormInput({
             },
             '&:hover fieldset': {
               borderColor: hasError ? '#d32f2f' : '#144BC8',
-            }
+            },
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: hasError ? '#d32f2f' : '#144BC8'
-          }
+            color: hasError ? '#d32f2f' : '#144BC8',
+          },
         }}
         inputProps={{ maxLength }}
         multiline={multiline}
         rows={rows}
       />
       {helperText && (
-        <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
           {helperText}
         </Typography>
       )}

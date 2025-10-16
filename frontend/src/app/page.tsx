@@ -18,7 +18,7 @@ export default function Home() {
   }, [router]);
 
   return (
-    <Box display='flex' justifyContent='center' alignItems='center' height='100vh'>
+    <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
       {loading ? <CircularProgress /> : null}
     </Box>
   );

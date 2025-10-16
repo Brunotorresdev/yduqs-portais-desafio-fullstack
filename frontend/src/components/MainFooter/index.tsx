@@ -166,8 +166,8 @@ export function MainFooter() {
   ];
 
   return (
-    <FooterSection component='footer'>
-      <Container maxWidth='lg'>
+    <FooterSection component="footer">
+      <Container maxWidth="lg">
         <Grid
           container
           spacing={isMobile ? 0 : 4}
@@ -179,7 +179,7 @@ export function MainFooter() {
             width: '100%',
           }}
         >
-          {footerSections.map(section => (
+          {footerSections.map((section) => (
             <Grid key={section.title} width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3 }}>
               {isMobile ? (
                 <Accordion
@@ -230,7 +230,7 @@ export function MainFooter() {
             mt: isMobile ? '16px' : '32px',
           }}
         >
-          {secondaryFooterSections.map(section => (
+          {secondaryFooterSections.map((section) => (
             <Grid key={section.title} width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3 }}>
               {isMobile ? (
                 <Accordion
@@ -269,7 +269,7 @@ export function MainFooter() {
             </Grid>
           ))}
         </Grid>
-        <Divider color='#E0E0E0' sx={{ mt: '32px' }} />
+        <Divider color="#E0E0E0" sx={{ mt: '32px' }} />
 
         <Box
           sx={{
@@ -283,16 +283,16 @@ export function MainFooter() {
           }}
         >
           <Grid width={isMobile ? '100%' : '160px'} size={{ xs: 12, sm: 3 }}>
-            <FooterLink href='#'>Política de privacidade</FooterLink>
-            <FooterLink href='#'>Código de Ética</FooterLink>
-            <FooterLink href='#'>Preferências de cookies</FooterLink>
-            <FooterLink href='#'>Mapa do site</FooterLink>
+            <FooterLink href="#">Política de privacidade</FooterLink>
+            <FooterLink href="#">Código de Ética</FooterLink>
+            <FooterLink href="#">Preferências de cookies</FooterLink>
+            <FooterLink href="#">Mapa do site</FooterLink>
           </Grid>
 
           <Box>
             <Image
-              src='/images/image_footer2.png'
-              alt='Logo da empresa'
+              src="/images/image_footer2.png"
+              alt="Logo da empresa"
               width={265}
               height={189}
               priority
@@ -302,10 +302,10 @@ export function MainFooter() {
             />
           </Box>
         </Box>
-        <Divider color='#E0E0E0' sx={{ mt: isMobile ? '16px' : '32px' }} />
+        <Divider color="#E0E0E0" sx={{ mt: isMobile ? '16px' : '32px' }} />
 
         <Grid mt={'32px'} size={{ xs: 12, sm: 3 }}>
-          <FooterLink href='#'>Estácio Brasil - Todos os direitos reservados</FooterLink>
+          <FooterLink href="#">Estácio Brasil - Todos os direitos reservados</FooterLink>
         </Grid>
       </Container>
     </FooterSection>

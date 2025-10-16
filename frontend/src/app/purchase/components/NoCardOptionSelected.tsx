@@ -20,21 +20,21 @@ export function NoCardOptionSelected() {
         margin: '0 auto',
       }}
     >
-      <Typography 
-        variant="h5" 
-        component="h1" 
+      <Typography
+        variant="h5"
+        component="h1"
         textAlign="center"
-        sx={{ 
+        sx={{
           fontFamily: '"Inter", "Roboto", sans-serif',
           fontWeight: 600,
         }}
       >
         Nenhuma opção de curso selecionada
       </Typography>
-      
-      <Typography 
+
+      <Typography
         textAlign="center"
-        sx={{ 
+        sx={{
           color: '#666',
           fontSize: '1rem',
           maxWidth: '80%',
@@ -42,7 +42,7 @@ export function NoCardOptionSelected() {
       >
         Por favor, selecione uma opção de curso antes de prosseguir com a matrícula.
       </Typography>
-      
+
       <Button
         variant="contained"
         onClick={() => router.push('/page-option')}
@@ -54,8 +54,8 @@ export function NoCardOptionSelected() {
           padding: '12px 24px',
           fontSize: '1rem',
           fontWeight: 500,
-          '&:hover': { 
-            backgroundColor: '#E73350' 
+          '&:hover': {
+            backgroundColor: '#E73350',
           },
           fontFamily: '"Inter", "Roboto", sans-serif',
         }}

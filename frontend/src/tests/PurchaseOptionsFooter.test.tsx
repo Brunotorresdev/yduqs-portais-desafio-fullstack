@@ -43,10 +43,10 @@ describe('PurchaseOptionsFooter', () => {
     const incentiveSection = screen.getByText('Sobre a Bolsa Incentivo');
     const summarySection = screen.getByText('Resumo das suas escolhas');
 
-    fireEvent.click(incentiveSection); 
+    fireEvent.click(incentiveSection);
     expect(incentiveSection.closest('button')).toHaveAttribute('aria-expanded', 'true');
 
-    fireEvent.click(summarySection); 
+    fireEvent.click(summarySection);
     expect(summarySection.closest('button')).toHaveAttribute('aria-expanded', 'true');
 
     expect(incentiveSection.closest('button')).toHaveAttribute('aria-expanded', 'false');

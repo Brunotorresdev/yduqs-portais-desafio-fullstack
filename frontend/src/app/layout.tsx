@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { CssBaseline } from '@mui/material';
 import { Providers } from '@/components/providers/Providers';
 import { MainFooter } from '@/components/MainFooter';
-import '../styles/globals.css'; 
+import '../styles/globals.css';
 
 export const metadata: Metadata = {
   title: 'Teste YDUQS - Next.js',

@@ -18,7 +18,6 @@ export function PurchaseOptionsFooter() {
 
   return (
     <Box mt={2}>
-
       <Accordion
         expanded={expanded === 'incentivo'}
         onChange={handleChange('incentivo')}

@@ -12,33 +12,38 @@ interface FormFieldsProps {
 }
 
 export function FormFields({ formatters }: FormFieldsProps) {
-  const { formatCPF, formatDate, formatPhone, formatOnlyNumbers = (value: string) => value.replace(/\D/g, '') } = formatters;
+  const {
+    formatCPF,
+    formatDate,
+    formatPhone,
+    formatOnlyNumbers = (value: string) => value.replace(/\D/g, ''),
+  } = formatters;
 
   return (
     <>
       <FormInput
-        name='fullName'
-        placeholder='Nome completo'
-        helperText='Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação.'
+        name="fullName"
+        placeholder="Nome completo"
+        helperText="Preencha seu nome completo, sem abreviações, igual ao seu documento de identificação."
       />
 
-      <FormInput name='cpf' placeholder='CPF' maxLength={14} formatValue={formatCPF} />
+      <FormInput name="cpf" placeholder="CPF" maxLength={14} formatValue={formatCPF} />
       <FormInput
-        name='birthDate'
-        placeholder='Data de nascimento'
+        name="birthDate"
+        placeholder="Data de nascimento"
         maxLength={10}
         formatValue={formatDate}
       />
-      <FormInput name='email' placeholder='E-mail' type='email' />
+      <FormInput name="email" placeholder="E-mail" type="email" />
       <FormInput
-        name='phone'
-        placeholder='Celular para contato'
+        name="phone"
+        placeholder="Celular para contato"
         maxLength={15}
         formatValue={formatPhone}
       />
-      <FormInput 
-        name='graduationYear' 
-        placeholder='Ano de conclusão do ensino médio'
+      <FormInput
+        name="graduationYear"
+        placeholder="Ano de conclusão do ensino médio"
         maxLength={4}
         formatValue={formatOnlyNumbers}
       />

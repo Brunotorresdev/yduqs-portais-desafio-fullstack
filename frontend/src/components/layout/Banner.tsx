@@ -10,7 +10,7 @@ type BannerProps = {
 
 export function Banner({ title, subTitle }: BannerProps): JSX.Element {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <div
@@ -22,9 +22,9 @@ export function Banner({ title, subTitle }: BannerProps): JSX.Element {
     >
       <ContainerWrapper>
         <Typography
-          color='#FFFFFF'
-          variant='h4'
-          component='h1'
+          color="#FFFFFF"
+          variant="h4"
+          component="h1"
           gutterBottom
           sx={{
             fontFamily: '"Montserrat", "Roboto", sans-serif',
@@ -38,12 +38,14 @@ export function Banner({ title, subTitle }: BannerProps): JSX.Element {
           {title}
         </Typography>
         <Typography
-          color='#FFFFFF'
-          variant='h6'
-          component='h6'
+          color="#FFFFFF"
+          variant="h6"
+          component="h6"
           gutterBottom
           sx={{
-            fontFamily: subTitle ? '"Inter", "Roboto", sans-serif' : '"Montserrat", "Roboto", sans-serif',
+            fontFamily: subTitle
+              ? '"Inter", "Roboto", sans-serif'
+              : '"Montserrat", "Roboto", sans-serif',
             fontWeight: 400,
             fontSize: '16px',
             lineHeight: '150%',

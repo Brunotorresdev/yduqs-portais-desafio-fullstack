@@ -114,7 +114,7 @@ describe('MainFooter', () => {
     const links = screen.getAllByRole('link');
     expect(links.length).toBeGreaterThan(0);
 
-    links.forEach(link => {
+    links.forEach((link) => {
       expect(link).toHaveAttribute('href');
     });
   });

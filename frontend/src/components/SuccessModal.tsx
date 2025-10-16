@@ -22,15 +22,15 @@ export function SuccessModal({ open, userName, onClose }: SuccessModalProps) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Dialog 
-      open={open} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      maxWidth="sm"
       fullWidth
       PaperProps={{
         sx: {
           borderRadius: '12px',
           padding: '24px',
-        }
+        },
       }}
     >
       <DialogContent>
@@ -80,8 +80,8 @@ export function SuccessModal({ open, userName, onClose }: SuccessModalProps) {
               fontSize: isMobile ? '14px' : '16px',
             }}
           >
-            Obrigado {userName}! Seu interesse é muito importante para nós.
-            Em breve entraremos em contato para dar continuidade ao seu processo de matrícula.
+            Obrigado {userName}! Seu interesse é muito importante para nós. Em breve entraremos em
+            contato para dar continuidade ao seu processo de matrícula.
           </Typography>
 
           <Button

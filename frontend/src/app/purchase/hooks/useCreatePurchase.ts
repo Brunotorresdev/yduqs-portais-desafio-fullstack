@@ -4,7 +4,7 @@ import { api } from '@services/api';
 interface ClientPayload {
   name: string;
   identifier: string;
-  birth_date: string; 
+  birth_date: string;
   email: string;
   phone: string;
   high_school_completion_year: number;
@@ -26,7 +26,6 @@ interface PurchasePayload {
   installment_value?: number;
   total_value?: number;
 }
-
 
 export function useCreatePurchase() {
   return useMutation({

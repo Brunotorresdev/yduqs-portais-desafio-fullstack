@@ -27,7 +27,12 @@ export function LoadingAndToast({ loading, toast, onCloseToast }: LoadingAndToas
         onClose={onCloseToast}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <Alert onClose={onCloseToast} severity={toast.severity} variant="filled" sx={{ width: '100%' }}>
+        <Alert
+          onClose={onCloseToast}
+          severity={toast.severity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
           {toast.message}
         </Alert>
       </Snackbar>

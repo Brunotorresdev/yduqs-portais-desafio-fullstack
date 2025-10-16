@@ -20,13 +20,13 @@ interface FeedbackModalProps {
   onClose: () => void;
 }
 
-export function FeedbackModal({ 
-  open, 
+export function FeedbackModal({
+  open,
   title,
   message,
   type,
   buttonText = 'Continuar',
-  onClose 
+  onClose,
 }: FeedbackModalProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -35,15 +35,15 @@ export function FeedbackModal({
   const Icon = type === 'success' ? Check : Error;
 
   return (
-    <Dialog 
-      open={open} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      maxWidth="sm"
       fullWidth
       PaperProps={{
         sx: {
           borderRadius: '12px',
           padding: '24px',
-        }
+        },
       }}
     >
       <DialogContent>

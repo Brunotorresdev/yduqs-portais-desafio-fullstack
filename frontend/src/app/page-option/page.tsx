@@ -11,22 +11,26 @@ import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
 export default function PageOption() {
   const { data, isLoading, isFetched } = usePageOptions();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Box >
+    <Box>
       <Header />
       <Banner
-        title='Vamos começar, escolha as opções do seu curso'
-        subTitle='Use os filtros para saber o preço do seu curso e fazer sua inscrição.'
+        title="Vamos começar, escolha as opções do seu curso"
+        subTitle="Use os filtros para saber o preço do seu curso e fazer sua inscrição."
       />
       <ContainerWrapper>
         {!isMobile && (
           <>
             {isLoading ? (
-              <Skeleton variant='text' width={220} height={32} sx={{ mb: 2 }} />
+              <Skeleton variant="text" width={220} height={32} sx={{ mb: 2 }} />
             ) : (
-              <Typography sx={{ marginBottom: '16px',padding: '0 10px' }} variant='h6' component='h2'>
+              <Typography
+                sx={{ marginBottom: '16px', padding: '0 10px' }}
+                variant="h6"
+                component="h2"
+              >
                 {data?.data?.length || '0'} opções encontradas
               </Typography>
             )}
@@ -40,13 +44,13 @@ export default function PageOption() {
             gap: '10px',
             flexWrap: 'wrap',
             justifyContent: isMobile ? 'center' : 'flex-start',
-            padding: '0 10px'
+            padding: '0 10px',
           }}
         >
           {isLoading ? (
             <>
-              <Skeleton variant='rectangular' width={300} height={300} sx={{ borderRadius: 2 }} />
-              <Skeleton variant='rectangular' width={300} height={300} sx={{ borderRadius: 2 }} />
+              <Skeleton variant="rectangular" width={300} height={300} sx={{ borderRadius: 2 }} />
+              <Skeleton variant="rectangular" width={300} height={300} sx={{ borderRadius: 2 }} />
             </>
           ) : (
             isFetched && data?.data.map((item: any) => <CardOptions key={item.id} item={item} />)

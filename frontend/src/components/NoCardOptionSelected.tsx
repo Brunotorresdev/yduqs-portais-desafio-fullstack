@@ -24,13 +24,9 @@ export function NoCardOptionSelected() {
       <Typography variant="body1">
         Por favor, selecione um curso antes de prosseguir com a inscrição.
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => router.push('/page-option')}
-      >
+      <Button variant="contained" color="primary" onClick={() => router.push('/page-option')}>
         Voltar para seleção de cursos
       </Button>
     </Box>
-  )
+  );
 }

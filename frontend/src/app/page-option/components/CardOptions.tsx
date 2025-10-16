@@ -28,17 +28,17 @@ export default function CardOptions({ item }: CardOptionsProps) {
   const hasValue = typeof item.cash_value === 'number' && !isNaN(item.cash_value);
   const tournName = item.tourns?.[0]?.name || '';
   const installments = hasValue ? item.installments || [] : [];
-  const {setSelectedCourse} = useCourse();
+  const { setSelectedCourse } = useCourse();
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); 
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Formik
       initialValues={{ cardOptionId: '', selectedParcel: '', open: false }}
-      onSubmit={values => console.log('Form values:', values)}
+      onSubmit={(values) => console.log('Form values:', values)}
     >
-      {formik => (
+      {(formik) => (
         <>
           <Box
             sx={{
@@ -52,16 +52,18 @@ export default function CardOptions({ item }: CardOptionsProps) {
                 backgroundColor: '#001F66',
                 color: '#FFF',
                 p: '8px 16px',
-
-             
               }}
             >
-              <Typography sx={{
-                   fontFamily: '"Inter", "Roboto", sans-serif',
-                fontWeight: 500,
-                fontSize: 16,
-                lineHeight: '135%',
-              }}>{tournName}</Typography>
+              <Typography
+                sx={{
+                  fontFamily: '"Inter", "Roboto", sans-serif',
+                  fontWeight: 500,
+                  fontSize: 16,
+                  lineHeight: '135%',
+                }}
+              >
+                {tournName}
+              </Typography>
             </Box>
 
             <Box sx={{ backgroundColor: '#144BC8', color: '#FFF', p: '24px 16px 16px 16px' }}>
@@ -74,10 +76,10 @@ export default function CardOptions({ item }: CardOptionsProps) {
                     <Typography sx={{ fontSize: 14, opacity: 0.8 }}>por até</Typography>
                   </Box>
 
-                  <Typography variant='h4' fontWeight='bold'>
+                  <Typography variant="h4" fontWeight="bold">
                     18x R${' '}
                     {installments
-                      .find(i => i.parcels === 18)
+                      .find((i) => i.parcels === 18)
                       ?.installment.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </Typography>
 
@@ -93,7 +95,7 @@ export default function CardOptions({ item }: CardOptionsProps) {
               )}
 
               <Button
-                variant='contained'
+                variant="contained"
                 onClick={() => {
                   formik.setFieldValue('open', true);
                   formik.setFieldValue('cardOptionId', item.id);
@@ -124,10 +126,10 @@ export default function CardOptions({ item }: CardOptionsProps) {
                 borderRadius: '0 0 8px 8px',
               }}
             >
-              <Typography fontWeight='bold'>
+              <Typography fontWeight="bold">
                 {item.city} - {item.street_neighborhood}
               </Typography>
-              <Typography variant='body2' color='text.secondary'>
+              <Typography variant="body2" color="text.secondary">
                 {item.street}, Nº {item.street_number} - {item.street_neighborhood} - {item.city}
               </Typography>
             </Box>

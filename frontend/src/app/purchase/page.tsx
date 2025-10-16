@@ -123,7 +123,7 @@ export default function RegistrationForm() {
   const router = useRouter();
 
   const handleCloseFeedback = () => {
-    setFeedbackModal(prev => ({ ...prev, open: false }));
+    setFeedbackModal((prev) => ({ ...prev, open: false }));
     if (feedbackModal.type === 'success') {
       router.push('/page-option');
     }
@@ -222,7 +222,7 @@ export default function RegistrationForm() {
   return (
     <>
       <Header />
-      <Banner title='Queremos saber um pouco mais sobre você' />
+      <Banner title="Queremos saber um pouco mais sobre você" />
       <ContainerWrapper>
         <Box
           sx={{

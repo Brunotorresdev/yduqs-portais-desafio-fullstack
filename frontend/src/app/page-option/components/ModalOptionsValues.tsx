@@ -40,7 +40,7 @@ export function ModalOptionsValues({
   const handleAdvance = () => {
     setIsNavigating(true);
     const selectedOption = installments.find(
-      opt => opt.parcels === Number(formik.values.selectedParcel)
+      (opt) => opt.parcels === Number(formik.values.selectedParcel)
     );
 
     if (selectedOption) {
@@ -58,7 +58,7 @@ export function ModalOptionsValues({
   };
 
   return (
-    <Dialog open={formik.values.open} onClose={() => handleClose()} maxWidth='sm' fullWidth>
+    <Dialog open={formik.values.open} onClose={() => handleClose()} maxWidth="sm" fullWidth>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <DialogTitle
           sx={{
@@ -76,7 +76,7 @@ export function ModalOptionsValues({
           <Close onClick={handleClose} sx={{ cursor: 'pointer' }} />
         </Box>
       </Box>
-      <Divider color='#E0E0E0' />
+      <Divider color="#E0E0E0" />
       <DialogContent
         sx={{
           paddingTop: isMobile ? '16px' : '24px 0 16px 0',
@@ -127,11 +127,11 @@ export function ModalOptionsValues({
               </Box>
 
               <RadioGroup
-                name='selectedParcel'
+                name="selectedParcel"
                 value={formik.values.selectedParcel}
                 onChange={formik.handleChange}
               >
-                {installments.map(opt => (
+                {installments.map((opt) => (
                   <Box
                     key={opt.parcels}
                     sx={{
@@ -185,7 +185,7 @@ export function ModalOptionsValues({
             <PurchaseOptionsFooter />
 
             <Button
-              variant='contained'
+              variant="contained"
               onClick={handleAdvance}
               disabled={isNavigating || !formik.values.selectedParcel}
               sx={{
@@ -229,7 +229,7 @@ export function ModalOptionsValues({
             <PurchaseOptionsFooter />
 
             <Button
-              variant='contained'
+              variant="contained"
               onClick={handleAdvance}
               disabled={isNavigating}
               sx={{

@@ -10,9 +10,7 @@ const queryClient = new QueryClient();
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <CourseProvider>
-        {children}
-      </CourseProvider>
+      <CourseProvider>{children}</CourseProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

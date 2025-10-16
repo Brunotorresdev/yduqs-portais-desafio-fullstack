@@ -53,7 +53,7 @@ export function CourseProvider({ children }: { children: ReactNode }) {
 export function useCourse() {
   const context = useContext(CourseContext);
   if (context === undefined) {
-    throw new Error('useCourse deve ser usado dentro de um CourseProvider')
+    throw new Error('useCourse deve ser usado dentro de um CourseProvider');
   }
   return context;
 }
