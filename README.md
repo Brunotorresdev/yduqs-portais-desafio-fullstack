@@ -79,7 +79,7 @@ Este é um projeto fullstack que consiste em um portal para inscrição em curso
    yarn prisma migrate deploy
    
    # Execute o seed para popular o banco com dados iniciais
-   yarn prisma db seed
+   yarn seed
    
    # (Opcional) Visualize o banco de dados no Prisma Studio
    yarn prisma studio
