@@ -33,23 +33,6 @@ export const FooterSection = styled(Box)<{ component?: React.ElementType }>(({ t
   },
 }));
 
-const StyledAccordion = styled(Accordion)(({ theme }) => ({
-  backgroundColor: 'transparent',
-  boxShadow: 'none',
-  width: '100%',
-  '&:before': {
-    display: 'none',
-  },
-}));
-
-const StyledAccordionSummary = styled(AccordionSummary)({
-  padding: 0,
-  minHeight: 'auto',
-  '& .MuiAccordionSummary-content': {
-    margin: '0',
-  },
-});
-
 export const FooterTitle = styled(Typography)(({ theme }) => ({
   fontSize: '16px',
   fontWeight: 600,

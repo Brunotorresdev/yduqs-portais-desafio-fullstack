@@ -1,15 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { api } from '@services/api';
 
-interface ClientPayload {
-  name: string;
-  identifier: string;
-  birth_date: string;
-  email: string;
-  phone: string;
-  high_school_completion_year: number;
-}
-
 interface PurchasePayload {
   course_option_id?: string | null;
   client: {

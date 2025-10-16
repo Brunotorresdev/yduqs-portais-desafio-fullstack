@@ -1,12 +1,6 @@
 import { useState } from 'react';
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-  Divider,
-  Box,
-} from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material';
+import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 
 export function PurchaseOptionsFooter() {

@@ -2,7 +2,8 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "prettier",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
@@ -16,5 +17,32 @@
     "react": {
       "version": "detect"
     }
+  },
+   "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2020": true
+  },
+  "globals": {
+    "process": "readonly",
+    "console": "readonly",
+    "setTimeout": "readonly",
+    "clearTimeout": "readonly",
+    "window": "readonly"
+  },
+  "overrides": [
+  {
+    "files": ["*.config.ts", "*.config.js", "vitest.setup.ts", "*.tsx", "*.ts"],
+    "env": { "node": true },
+    "rules": {
+      "no-undef": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/triple-slash-reference": "off"
+    }
   }
+]
+
 }

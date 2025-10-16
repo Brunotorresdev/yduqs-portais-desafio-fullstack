@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { CssBaseline } from '@mui/material';
 import { Providers } from '@/components/providers/Providers';
-import { MainFooter } from '@/components/MainFooter';
+import React from 'react';
 import '../styles/globals.css';
 
 export const metadata: Metadata = {
@@ -16,7 +16,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CssBaseline />
         <Providers>
           <main>{children}</main>
-          {/*  */}
         </Providers>
       </body>
     </html>

@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
+import React, { type ChangeEvent } from 'react';
 import { TextField, Box, Typography } from '@mui/material';
 import { ErrorMessage, useFormikContext } from 'formik';
+import type { DOMElement } from '@/types/dom';
 
 interface FormInputProps {
   name: string;
@@ -24,10 +25,11 @@ export function FormInput({
   multiline = false,
   rows,
 }: FormInputProps) {
-  const { values, handleChange, handleBlur, setFieldValue, touched, errors } =
-    useFormikContext<any>();
+  const { values, handleChange, handleBlur, setFieldValue, touched, errors } = useFormikContext<{
+    [key: string]: string;
+  }>();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (formatValue) {
       const formatted = formatValue(e.target.value);
       setFieldValue(name, formatted);

@@ -1,7 +1,7 @@
 import { JSX } from 'react';
 import { ContainerWrapper } from './ContainerWrapper';
 import { Typography } from '@mui/material';
-import { useMediaQuery, useTheme, Box } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 type BannerProps = {
   title: string;

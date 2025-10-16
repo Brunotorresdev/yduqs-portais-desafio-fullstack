@@ -20,10 +20,18 @@ import { PurchaseOptionsFooter } from './PurchaseOptionsFooter';
 import { Close } from '@mui/icons-material';
 import { useCourse } from '@/contexts/CourseContext';
 
+import { FormikProps } from 'formik';
+
+interface FormikValues {
+  cardOptionId: string;
+  selectedParcel: string;
+  open: boolean;
+}
+
 interface ModalOptionsValuesProps {
   hasValue: boolean;
   installments?: { parcels: number; installment: number; total: number }[];
-  formik: any;
+  formik: FormikProps<FormikValues>;
 }
 
 export function ModalOptionsValues({

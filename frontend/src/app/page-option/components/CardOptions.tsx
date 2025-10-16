@@ -1,27 +1,12 @@
-import { useState } from 'react';
 import { Box, Typography, Button, useTheme, useMediaQuery } from '@mui/material';
 import { ModalOptionsValues } from './ModalOptionsValues';
 import { Formik } from 'formik';
 import { useCourse } from '@/contexts/CourseContext';
 
-interface Tour {
-  id: string;
-  name: string;
-}
+import type { CourseOption } from '../types';
 
 interface CardOptionsProps {
-  item: {
-    id: string;
-    name: string;
-    value?: number;
-    cash_value?: number;
-    city: string;
-    street: string;
-    street_number: string;
-    street_neighborhood: string;
-    tourns: Tour[];
-    installments?: { parcels: number; installment: number; total: number }[];
-  };
+  item: CourseOption;
 }
 
 export default function CardOptions({ item }: CardOptionsProps) {
@@ -36,6 +21,7 @@ export default function CardOptions({ item }: CardOptionsProps) {
   return (
     <Formik
       initialValues={{ cardOptionId: '', selectedParcel: '', open: false }}
+      /* eslint-disable-next-line no-console, no-undef */
       onSubmit={(values) => console.log('Form values:', values)}
     >
       {(formik) => (

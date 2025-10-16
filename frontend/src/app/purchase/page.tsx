@@ -12,7 +12,7 @@ import { FormActions } from './components/FormActions';
 import { TermsSection } from './components/TermsSection';
 import { FeedbackModal } from '@/components/FeedbackModal';
 import { ContainerWrapper } from '@/components/layout/ContainerWrapper';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { useCreatePurchase } from './hooks/useCreatePurchase';
@@ -74,6 +74,15 @@ const validationSchema = Yup.object({
   acceptWhatsApp: Yup.boolean(),
 });
 
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string | string[];
+    };
+    status?: number;
+  };
+}
+
 interface PurchasePayload {
   course_option_id?: string | null;
   client: {
@@ -93,6 +102,21 @@ interface PurchasePayload {
 
 export default function RegistrationForm() {
   const { selectedCourseId, selectedInstallment } = useCourse();
+  const createPurchase = useCreatePurchase();
+  const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [feedbackModal, setFeedbackModal] = useState<{
+    open: boolean;
+    title: string;
+    message: string;
+    type: 'success' | 'error';
+  }>({
+    open: false,
+    title: '',
+    message: '',
+    type: 'success',
+  });
 
   if (!selectedCourseId) {
     return (
@@ -108,20 +132,6 @@ export default function RegistrationForm() {
     );
   }
 
-  const createPurchase = useCreatePurchase();
-  const [feedbackModal, setFeedbackModal] = useState<{
-    open: boolean;
-    title: string;
-    message: string;
-    type: 'success' | 'error';
-  }>({
-    open: false,
-    title: '',
-    message: '',
-    type: 'success',
-  });
-  const router = useRouter();
-
   const handleCloseFeedback = () => {
     setFeedbackModal((prev) => ({ ...prev, open: false }));
     if (feedbackModal.type === 'success') {
@@ -129,7 +139,18 @@ export default function RegistrationForm() {
     }
   };
 
-  const handleSubmit = async (values: any) => {
+  interface FormValues {
+    fullName: string;
+    cpf: string;
+    birthDate: string;
+    email: string;
+    phone: string;
+    graduationYear: string;
+    acceptTerms: boolean;
+    acceptWhatsApp: boolean;
+  }
+
+  const handleSubmit = async (values: FormValues) => {
     const convertBrazilianDateToISO = (dateString: string) => {
       const [day, month, year] = dateString.split('/');
       return new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toISOString();
@@ -160,25 +181,27 @@ export default function RegistrationForm() {
         message: `Obrigado ${values.fullName.split(' ')[0]}! Seu interesse é muito importante para nós. Em breve entraremos em contato para dar continuidade ao seu processo de matrícula.`,
         type: 'success',
       });
-    } catch (error: any) {
+    } catch (error) {
+      const apiError = error as ApiError;
+      /* eslint-disable-next-line no-console, no-undef */
       console.error('Erro ao criar compra:', error);
       let errorMessage = 'Ocorreu um erro inesperado ao enviar os dados. Tente novamente.';
 
-      if (error?.response?.data?.message) {
-        if (Array.isArray(error.response.data.message)) {
-          errorMessage = error.response.data.message.join('\n');
+      if (apiError.response?.data?.message) {
+        if (Array.isArray(apiError.response.data.message)) {
+          errorMessage = apiError.response.data.message.join('\n');
         } else {
-          errorMessage = error.response.data.message;
+          errorMessage = apiError.response.data.message as string;
         }
-      } else if (error?.response?.status === 400) {
+      } else if (apiError.response?.status === 400) {
         if (!selectedCourseId) {
           errorMessage = 'Por favor, selecione um curso para prosseguir com a inscrição.';
         } else {
           errorMessage = 'Alguns campos estão inválidos. Por favor, verifique os dados informados.';
         }
-      } else if (error?.response?.status === 404) {
+      } else if (apiError.response?.status === 404) {
         errorMessage = 'Opção de curso não encontrada. Por favor, selecione outra opção.';
-      } else if (error?.response?.status === 500) {
+      } else if (apiError.response?.status === 500) {
         errorMessage = 'Erro interno do servidor. Por favor, tente novamente mais tarde.';
       }
 
@@ -215,9 +238,6 @@ export default function RegistrationForm() {
     if (numbers.length <= 4) return `${numbers.slice(0, 2)}/${numbers.slice(2)}`;
     return `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(4, 8)}`;
   };
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <>

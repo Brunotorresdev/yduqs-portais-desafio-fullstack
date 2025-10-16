@@ -3,6 +3,7 @@
 import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
+import type { CourseOption } from './types';
 import { Box, Typography, Skeleton, useTheme, useMediaQuery } from '@mui/material';
 import { usePageOptions } from './hooks/usePageOptions';
 import CardOptions from './components/CardOptions';
@@ -53,7 +54,8 @@ export default function PageOption() {
               <Skeleton variant="rectangular" width={300} height={300} sx={{ borderRadius: 2 }} />
             </>
           ) : (
-            isFetched && data?.data.map((item: any) => <CardOptions key={item.id} item={item} />)
+            isFetched &&
+            data?.data.map((item: CourseOption) => <CardOptions key={item.id} item={item} />)
           )}
         </Box>
       </ContainerWrapper>

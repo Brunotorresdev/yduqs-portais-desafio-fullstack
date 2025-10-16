@@ -9,13 +9,17 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+  if (typeof window !== 'undefined') {
+    const timeout = window.setTimeout(() => {
       router.replace('/page-option');
       setLoading(false);
     }, 1000);
 
-    return () => clearTimeout(timeout);
-  }, [router]);
+    return () => window.clearTimeout(timeout);
+  }
+}, [router]);
+
+
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" height="100vh">

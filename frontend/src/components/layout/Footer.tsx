@@ -1,6 +1,5 @@
 import { JSX } from 'react';
 import Image from 'next/image';
-import { ContainerWrapper } from './ContainerWrapper';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { MainFooter } from '../MainFooter';
 
@@ -41,11 +40,11 @@ export function Footer({ isDefault }: FooterProps): JSX.Element {
                   }}
                   width={40}
                   height={40}
-                  src="/icons/phone_icon.png"
-                  alt="Icone de telefone"
+                  src='/icons/phone_icon.png'
+                  alt='Icone de telefone'
                   priority
                 />
-                <Typography variant="body2" color="#FFFFFF">
+                <Typography variant='body2' color='#FFFFFF'>
                   0800 771 5055
                 </Typography>
               </Box>
@@ -57,35 +56,41 @@ export function Footer({ isDefault }: FooterProps): JSX.Element {
                   }}
                   width={40}
                   height={40}
-                  src="/icons/whatsapp_icon.png"
-                  alt="Icone do WhatsApp"
+                  src='/icons/whatsapp_icon.png'
+                  alt='Icone do WhatsApp'
                   priority
                 />
-                <Typography variant="body2" color="#FFFFFF">
+                <Typography variant='body2' color='#FFFFFF'>
                   Precisa de ajuda?
                 </Typography>
               </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="body2" color="#FFFFFF">
+              <Typography variant='body2' color='#FFFFFF'>
                 Estácio Brasil - Todos os direitos reservados
               </Typography>
             </Box>
           </>
         ) : (
           <>
-            <Box sx={{}}>
+            <Box
+              sx={{
+                position: 'relative',
+                width: 158.33,
+                height: 40,
+                marginBottom: isMobile ? '16px' : 0,
+              }}
+            >
               <Image
-                src="/images/logo_estacio_white.png"
-                alt="Logo da empresa"
-                width={158.33}
-                height={40}
+                src='/images/logo_estacio_white.png'
+                alt='Logo da empresa'
+                fill
+                style={{ objectFit: 'contain' }}
+                sizes='(max-width: 600px) 100px, 158px'
                 priority
-                style={{
-                  marginBottom: isMobile ? '16px' : 0,
-                }}
               />
             </Box>
+
             <Box
               sx={{
                 display: 'flex',
@@ -101,11 +106,11 @@ export function Footer({ isDefault }: FooterProps): JSX.Element {
                   style={{ marginRight: '12px' }}
                   width={40}
                   height={40}
-                  src="/icons/phone_icon.png"
-                  alt="Icone de telefone"
+                  src='/icons/phone_icon.png'
+                  alt='Icone de telefone'
                   priority
                 />
-                <Typography variant="body2" color="#FFFFFF">
+                <Typography variant='body2' color='#FFFFFF'>
                   0800 771 5055
                 </Typography>
               </Box>
@@ -115,11 +120,11 @@ export function Footer({ isDefault }: FooterProps): JSX.Element {
                   style={{ marginRight: '12px' }}
                   width={40}
                   height={40}
-                  src="/icons/whatsapp_icon.png"
-                  alt="Icone do WhatsApp"
+                  src='/icons/whatsapp_icon.png'
+                  alt='Icone do WhatsApp'
                   priority
                 />
-                <Typography variant="body2" color="#FFFFFF">
+                <Typography variant='body2' color='#FFFFFF'>
                   Precisa de ajuda?
                 </Typography>
               </Box>
